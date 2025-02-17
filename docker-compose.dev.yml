@@ -1,0 +1,17 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env.dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: pnpm dev
+    networks:
+      - caddy
+
+networks:
+  caddy:
+    external: true

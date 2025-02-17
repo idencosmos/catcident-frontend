@@ -2,6 +2,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+```text
+# 심볼릭 링크 생성
+ln -sf docker-compose.dev.yml docker-compose.yml
+```
+
 First, run the development server:
 
 ```bash
