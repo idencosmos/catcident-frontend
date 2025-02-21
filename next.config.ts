@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
         hostname: "media.catcident.com",
         pathname: "/public-catcident/**",
       },
+      {
+        protocol: "http",
+        hostname: "catcident-backend-api-1",
+        pathname: "/media/**",
+      },
+
     ],
   },
   
