@@ -13,8 +13,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   return {
     locale,
     getMessageFallback({ namespace, key }) {
-      // 기본 언어로 폴백
-      return `${namespace}.${key} is missing`; // 기본값 반환
+      return `Translation missing for ${namespace}.${key} in ${locale}`;
     },
   };
 });
