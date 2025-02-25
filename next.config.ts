@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "media.catcident.com",
-        pathname: "/public-catcident/**",
+        hostname: "cdn.catcident.com",
+        pathname: "/media/**",
       },
       {
         protocol: "http",
