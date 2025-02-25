@@ -13,11 +13,10 @@ interface SubNavBarProps {
   headerHeight: number;
 }
 
-export default function SubNavBar({ items, defaultValue, headerHeight }: SubNavBarProps) {
+export default function SubNavBar({ items, headerHeight }: SubNavBarProps) {
   const pathname = usePathname();
   const subNavHeight = 48;
   const { subNavOffset } = useHeaderScrollBehavior(headerHeight, subNavHeight);
-  const safeDefaultValue = defaultValue ?? (items.length > 0 ? items[0].value : null);
 
   return (
     <>

@@ -1,3 +1,4 @@
+// src/components/layout/Header/Header.tsx
 'use client';
 
 import { useHeaderScrollBehavior } from '@/hooks/useHeaderScrollBehavior';
@@ -25,7 +26,7 @@ interface HeaderProps {
   navGroups: NavGroup[];
 }
 
-export default function Header({ locale, siteTitle, navGroups }: HeaderProps) {
+export default function Header({ siteTitle, navGroups }: HeaderProps) {
   const headerHeight = 64;
   const subNavHeight = 48;
   const { headerOffset } = useHeaderScrollBehavior(headerHeight, subNavHeight);
