@@ -1,23 +1,23 @@
 // src/app/[locale]/about/books/page.tsx
 import { getBooks } from "@/lib/api/about";
-import { Book } from "../_types/book";
+import { Book } from "@/lib/api/_types/about/book";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function BooksPage({
-  params,
+  params: paramsPromise,
   searchParams,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
   searchParams: { category?: string };
 }) {
-  const { locale } = params;
+  const { locale } = await paramsPromise;
   const { category } = searchParams;
 
   const books: Book[] = await getBooks(locale);
   const filteredBooks = category
-    ? books.filter((book) => book.category.slug === category)
+    ? books.filter((book) => book.category?.slug === category)
     : books;
 
   return (
@@ -31,7 +31,7 @@ export default async function BooksPage({
             <CardContent>
               {book.cover_image && (
                 <Image
-                  src={book.cover_image}
+                  src={book.cover_image.file}
                   alt={book.title}
                   width={150}
                   height={200}

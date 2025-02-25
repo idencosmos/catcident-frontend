@@ -1,13 +1,16 @@
-import { getBookCategories } from '@/lib/api/about';
-import SubNavBar from '@/components/layout/SubNavBar/SubNavBar';
-import { BookCategory } from '@/lib/api/_types/about/book';
-import { SubNavItem } from '@/components/layout/SubNavBar/SubNavBarItem';
-import { Suspense } from 'react';
-import Loading from './loading';
-import { setRequestLocale } from 'next-intl/server';
-import { EmptyState } from '@/components/ui/empty-state';
+import { Suspense } from "react";
+import { setRequestLocale } from "next-intl/server";
 
-export default async function BooksLayout({
+import { NewsCategory } from "@/lib/api/_types/news";
+import { getNewsCategories } from "@/lib/api/news";
+
+import SubNavBar from "@/components/layout/SubNavBar/SubNavBar";
+import { SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
+import { EmptyState } from "@/components/ui/empty-state";
+
+import Loading from "./loading";
+
+export default async function NewsLayout({
   children,
   params: paramsPromise,
 }: {
@@ -18,20 +21,19 @@ export default async function BooksLayout({
   setRequestLocale(locale);
   const headerHeight = 64;
 
-  const categories: BookCategory[] = await getBookCategories(locale);
+  const categories: NewsCategory[] = await getNewsCategories(locale);
 
-  // 데이터가 없으면 EmptyState를 표시
   if (categories.length === 0) {
     return (
       <EmptyState
-        message="현재 책 카테고리가 없습니다. 잠시 후 다시 시도해주세요."
+        message="현재 뉴스 카테고리가 없습니다. 관리자에게 문의하거나 잠시 후 다시 시도해주세요."
         showRefresh
       />
     );
   }
 
   const navItems: SubNavItem[] = categories.map((category) => ({
-    href: `/${locale}/about/books?category=${category.slug}`,
+    href: `/${locale}/news?category=${category.slug}`,
     label: category.name,
     value: category.slug,
   }));

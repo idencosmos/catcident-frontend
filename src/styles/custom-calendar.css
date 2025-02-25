@@ -1,0 +1,8 @@
+/* src/styles/custom-calendar.css */
+.react-calendar {
+  @apply border rounded-lg shadow-md bg-card text-card-foreground;
+}
+
+.react-calendar__tile--active {
+  @apply bg-primary text-primary-foreground;
+}

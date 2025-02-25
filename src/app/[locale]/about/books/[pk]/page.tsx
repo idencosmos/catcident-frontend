@@ -1,21 +1,20 @@
-// src/app/[locale]/about/books/[pk]/page.tsx
+import { Book } from "@/lib/api/_types/about/book";
 import { getBook } from "@/lib/api/about";
 import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Suspense } from "react";
 import Loading from "../loading";
-import { Book } from "../../_types/book"; // 타입 임포트 추가
 
 export default async function BookDetailPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: { locale: string; pk: string };
+  params: Promise<{ locale: string; pk: string }>;
 }) {
-  const { locale, pk } = params;
-  const book: Book | null = await getBook(parseInt(pk), locale).catch(() => null);
+  const { locale, pk } = await paramsPromise;
+  const book: Book = await getBook(parseInt(pk), locale);
 
-  if (!book) {
+  if (book.id === -1) {
     notFound();
   }
 
@@ -24,12 +23,14 @@ export default async function BookDetailPage({
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">{book.title}</CardTitle>
-          {book.subtitle && <p className="text-muted-foreground">{book.subtitle}</p>}
+          {book.subtitle && (
+            <p className="text-muted-foreground">{book.subtitle}</p>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
           {book.cover_image && (
             <Image
-              src={book.cover_image}
+              src={book.cover_image.file}
               alt={book.title}
               width={200}
               height={300}

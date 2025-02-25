@@ -1,21 +1,20 @@
-// src/app/[locale]/about/characters/[slug]/page.tsx
 import { getCharacter } from "@/lib/api/about";
 import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Suspense } from "react";
 import Loading from "../loading";
-import { Character } from "../../_types/character"; // 타입 임포트 추가
+import { Character } from "@/lib/api/_types/about/character";
 
 export default async function CharacterDetailPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale, slug } = params;
-  const character: Character | null = await getCharacter(slug, locale).catch(() => null);
+  const { locale, slug } = await paramsPromise;
+  const character: Character = await getCharacter(slug, locale);
 
-  if (!character) {
+  if (character.id === -1) {
     notFound();
   }
 
@@ -28,7 +27,7 @@ export default async function CharacterDetailPage({
         <CardContent className="space-y-4">
           {character.image && (
             <Image
-              src={character.image}
+              src={character.image.file}
               alt={character.name}
               width={200}
               height={300}

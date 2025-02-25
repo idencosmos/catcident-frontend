@@ -1,18 +1,18 @@
-// src/app/[locale]/about/creator/page.tsx
 import { redirect } from "next/navigation";
 import { getCreators } from "@/lib/api/about";
-import { Creator } from "../_types/creator";
+import { Creator } from "@/lib/api/_types/about/creator";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function CreatorRedirectPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await paramsPromise;
 
   const creators: Creator[] = await getCreators(locale);
-  if (!creators.length) {
-    throw new Error("No creators found");
+  if (creators.length === 0) {
+    return <EmptyState message="크리에이터 정보가 없습니다." />;
   }
 
   redirect(`/${locale}/about/creator/${creators[0].slug}`);

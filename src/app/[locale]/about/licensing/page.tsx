@@ -1,17 +1,26 @@
-// src/app/[locale]/about/licensing/page.tsx
 import { getLicensePage } from "@/lib/api/about";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Suspense } from "react";
 import Loading from "./loading";
-import { LicensePage } from "../_types/license";
+import { LicensePage } from "@/lib/api/_types/about/license";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function LicensingPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await paramsPromise;
   const license: LicensePage = await getLicensePage(locale);
+
+  if (license.id === -1) {
+    return (
+      <EmptyState
+        message="라이선스 정보가 없습니다. 잠시 후 다시 시도해주세요."
+        showRefresh
+      />
+    );
+  }
 
   return (
     <Suspense fallback={<Loading />}>

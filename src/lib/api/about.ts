@@ -1,124 +1,107 @@
-// lib/api/about.ts
+// src/lib/api/about.ts
+import { fetchAPI } from './common';
+import { Creator } from '@/lib/api/_types/about/creator';
+import { BookCategory, Book } from '@/lib/api/_types/about/book';
+import { Character } from '@/lib/api/_types/about/character';
+import { HistoryEvent } from '@/lib/api/_types/about/history';
+import { LicensePage } from '@/lib/api/_types/about/license';
 
-// 1) Creator 관련 API
-export async function getCreators(locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/creators/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch Creators: ${res.status}`);
-    }
-    // 반환 구조 예: [{ id, slug, photo, name, bio_summary, description }, ...]
-    return res.json();
-  }
-  
-  export async function getCreator(slug: string, locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/creators/${slug}/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch Creator (${slug}): ${res.status}`);
-    }
-    // 반환 구조 예: { id, slug, photo, name, bio_summary, description }
-    return res.json();
-  }
-  
-  // 2) BookCategory 관련 API
-  export async function getBookCategories(locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/book-categories/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch BookCategories: ${res.status}`);
-    }
-    // 반환 구조 예: [{ id, slug, name }, ...]
-    return res.json();
-  }
-  
-  // 3) Book 관련 API
-  export async function getBooks(locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch Books: ${res.status}`);
-    }
-    // 반환 구조 예: [{ id, title, subtitle, description, cover_image, pub_date, category, authors }, ...]
-    return res.json();
-  }
-  
-  export async function getBook(pk: number, locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/${pk}/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch Book (${pk}): ${res.status}`);
-    }
-    // 반환 구조 예: { id, title, subtitle, description, cover_image, pub_date, category, authors }
-    return res.json();
-  }
-  
-  // 4) Character 관련 API
-  export async function getCharacters(locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/characters/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch Characters: ${res.status}`);
-    }
-    // 반환 구조 예: [{ id, slug, image, name, description, books, creator }, ...]
-    return res.json();
-  }
-  
-  export async function getCharacter(slug: string, locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/characters/${slug}/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch Character (${slug}): ${res.status}`);
-    }
-    // 반환 구조 예: { id, slug, image, name, description, books, creator }
-    return res.json();
-  }
-  
-  // 5) HistoryEvent 관련 API
-  export async function getHistoryEvents(locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/history/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch HistoryEvents: ${res.status}`);
-    }
-    // 반환 구조 예: [{ id, date, image, title, description }, ...]
-    return res.json();
-  }
-  
-  // 6) LicensePage 관련 API
-  export async function getLicensePage(locale: string) {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/license/`;
-    const res = await fetch(url, {
-      headers: { "Accept-Language": locale },
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error(`Failed to fetch LicensePage: ${res.status}`);
-    }
-    // 반환 구조 예: { id, updated_at, title, content }
-    return res.json();
-  }
+const DEFAULT_CREATORS: Creator[] = [];
+const DEFAULT_CREATOR: Creator = {
+  id: -1,
+  slug: "creator-unavailable",
+  name: "Creator unavailable",
+  photo: null,
+  bio_summary: "",
+  description: "",
+};
+
+const DEFAULT_BOOK_CATEGORIES: BookCategory[] = [];
+const DEFAULT_BOOKS: Book[] = [];
+const DEFAULT_BOOK: Book = {
+  id: -1,
+  title: "Book unavailable",
+  subtitle: "",
+  description: "",
+  cover_image: null,
+  pub_date: "",
+  category: null,
+  authors: [],
+};
+
+const DEFAULT_CHARACTERS: Character[] = [];
+const DEFAULT_CHARACTER: Character = {
+  id: -1,
+  slug: "character-unavailable",
+  name: "Character unavailable",
+  image: null,
+  description: "",
+  books: [],
+  creator: "",
+};
+
+const DEFAULT_HISTORY_EVENTS: HistoryEvent[] = [];
+const DEFAULT_HISTORY_EVENT: HistoryEvent = {
+  id: -1,
+  date: "",
+  image: null,
+  title: "History event unavailable",
+  description: "",
+};
+
+const DEFAULT_LICENSE_PAGE: LicensePage = {
+  id: -1,
+  updated_at: "",
+  title: "License unavailable",
+  content: "",
+};
+
+export async function getCreators(locale: string): Promise<Creator[]> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/creators/`;
+  return fetchAPI<Creator[]>(url, { locale, cache: "no-store" }, DEFAULT_CREATORS);
+}
+
+export async function getCreator(slug: string, locale: string): Promise<Creator> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/creators/${slug}/`;
+  return fetchAPI<Creator>(url, { locale, cache: "no-store" }, DEFAULT_CREATOR);
+}
+
+export async function getBookCategories(locale: string): Promise<BookCategory[]> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/book-categories/`;
+  return fetchAPI<BookCategory[]>(url, { locale, cache: "no-store" }, DEFAULT_BOOK_CATEGORIES);
+}
+
+export async function getBooks(locale: string): Promise<Book[]> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/`;
+  return fetchAPI<Book[]>(url, { locale, cache: "no-store" }, DEFAULT_BOOKS);
+}
+
+export async function getBook(pk: number, locale: string): Promise<Book> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/${pk}/`;
+  return fetchAPI<Book>(url, { locale, cache: "no-store" }, DEFAULT_BOOK);
+}
+
+export async function getCharacters(locale: string): Promise<Character[]> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/characters/`;
+  return fetchAPI<Character[]>(url, { locale, cache: "no-store" }, DEFAULT_CHARACTERS);
+}
+
+export async function getCharacter(slug: string, locale: string): Promise<Character> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/characters/${slug}/`;
+  return fetchAPI<Character>(url, { locale, cache: "no-store" }, DEFAULT_CHARACTER);
+}
+
+export async function getHistoryEvents(locale: string): Promise<HistoryEvent[]> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/history/`;
+  return fetchAPI<HistoryEvent[]>(url, { locale, cache: "no-store" }, DEFAULT_HISTORY_EVENTS);
+}
+
+export async function getHistoryEvent(pk: number, locale: string): Promise<HistoryEvent> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/history/${pk}/`;
+  return fetchAPI<HistoryEvent>(url, { locale, cache: "no-store" }, DEFAULT_HISTORY_EVENT);
+}
+
+export async function getLicensePage(locale: string): Promise<LicensePage> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/license/`;
+  return fetchAPI<LicensePage>(url, { locale, cache: "no-store" }, DEFAULT_LICENSE_PAGE);
+}

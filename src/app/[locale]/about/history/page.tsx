@@ -1,18 +1,27 @@
-// src/app/[locale]/about/history/page.tsx
 import { getHistoryEvents } from "@/lib/api/about";
-import { HistoryEvent } from "../_types/history";
+import { HistoryEvent } from "@/lib/api/_types/about/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function HistoryPage({
-  params,
+  params: paramsPromise,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await paramsPromise;
   const events: HistoryEvent[] = await getHistoryEvents(locale);
+
+  if (events.length === 0) {
+    return (
+      <EmptyState
+        message="히스토리 이벤트가 없습니다. 잠시 후 다시 시도해주세요."
+        showRefresh
+      />
+    );
+  }
 
   return (
     <Suspense fallback={<Loading />}>
@@ -25,7 +34,7 @@ export default async function HistoryPage({
             <CardContent className="w-full md:w-3/4 space-y-2">
               {event.image && (
                 <Image
-                  src={event.image}
+                  src={event.image.file}
                   alt={event.title}
                   width={200}
                   height={150}

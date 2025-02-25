@@ -1,11 +1,12 @@
 // app/[locale]/page.tsx
 import { redirect } from "next/navigation";
 
-export default function RootLocalePage({
-  params,
+export default async function RootLocalePage({
+  params: paramsPromise,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  redirect(`/${params.locale}/home`);
+  const { locale } = await paramsPromise;
+  redirect(`/${locale}/home`);
   return null;
 }

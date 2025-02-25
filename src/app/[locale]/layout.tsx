@@ -1,22 +1,13 @@
-import { setRequestLocale } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing, Locale } from '@/i18n/routing';
-import Header from '@/components/layout/Header/Header';
-import Footer from '@/components/layout/Footer/Footer';
-import { getSiteTitle, getNavigationGroups } from '@/lib/api/navigation';
-
-interface SubMenu {
-  id: number;
-  href: string;
-  label: string;
-}
-
-interface NavGroup {
-  id: number;
-  group_label: string;
-  highlighted: boolean;
-  sub_menus: SubMenu[];
-}
+// app/[locale]/layout.tsx
+import { Suspense } from 'react';
+import { setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing, Locale } from "@/i18n/routing";
+import Header from "@/components/layout/Header/Header";
+import Footer from "@/components/layout/Footer/Footer";
+import { getSiteTitle, getNavigationGroups } from "@/lib/api/navigation";
+import { NavGroup, SiteTitle } from "@/lib/api/_types/navigation";
+import Loading from '@/components/Loading';
 
 export function generateStaticParams() {
   return routing.locales.map((loc) => ({ locale: loc }));
@@ -24,31 +15,30 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({
   children,
-  params: { locale },
+  params: paramsPromise,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await paramsPromise;
   if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
   setRequestLocale(locale);
 
-  const siteTitleData = await getSiteTitle(locale);
-  const navGroupsData = (await getNavigationGroups(locale)) as NavGroup[];
+  const siteTitleData: SiteTitle = await getSiteTitle(locale);
+  const navGroupsData: NavGroup[] = await getNavigationGroups(locale);
   const headerHeight = 64;
+
+  const siteTitle = siteTitleData.title || "고양이의 만행"; // API 호출 성공 시 기본값 설정
 
   return (
     <>
-      <Header
-        locale={locale}
-        siteTitle={siteTitleData?.title ?? 'MySite'}
-        navGroups={navGroupsData}
-      />
+      <Header locale={locale} siteTitle={siteTitle} navGroups={navGroupsData} />
       <div style={{ height: `${headerHeight}px` }} />
-      <div className="container mx-auto px-4">
-        {children}
-      </div>
+      <Suspense fallback={<Loading />}>
+        <div className="container mx-auto px-4">{children}</div>
+      </Suspense>
       <Footer locale={locale} />
     </>
   );
