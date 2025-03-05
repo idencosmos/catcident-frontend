@@ -17,6 +17,14 @@ interface HeroSectionClientProps {
 export function HeroSectionClient({ slides }: HeroSectionClientProps) {
   const plugin = useRef(Autoplay({ delay: 3000 }));
 
+  // Filter out slides with missing images to prevent errors
+  const validSlides = slides.filter(slide => slide.image && slide.image.file);
+
+  // If no valid slides, don't render the carousel
+  if (validSlides.length === 0) {
+    return null;
+  }
+
   return (
     <div className="w-full">
       <Carousel
@@ -26,7 +34,7 @@ export function HeroSectionClient({ slides }: HeroSectionClientProps) {
         }}
       >
         <CarouselContent>
-          {slides.map((slide) => (
+          {validSlides.map((slide) => (
             <CarouselItem
               key={slide.id}
               className="relative w-full aspect-[2/1]"
