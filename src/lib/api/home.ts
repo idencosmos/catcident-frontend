@@ -25,21 +25,21 @@ export async function getHeroSlides(locale: string): Promise<HeroSlide[]> {
 }
 
 export async function getLatestBooks(locale: string, limit: number = 3): Promise<Book[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/home/books/?limit=${limit}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/?limit=${limit}`;
   return fetchAPI<Book[]>(url, { locale, cache: "no-store" }, DEFAULT_LATEST_BOOKS);
 }
 
 export async function getFeaturedAuthors(locale: string, limit: number = 3): Promise<Creator[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/home/authors/?limit=${limit}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/creators/?limit=${limit}`;
   return fetchAPI<Creator[]>(url, { locale, cache: "no-store" }, DEFAULT_FEATURED_AUTHORS);
 }
 
 export async function getLatestNews(locale: string, limit: number = 2): Promise<News[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/home/news/?limit=${limit}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/news/?limit=${limit}`;
   return fetchAPI<News[]>(url, { locale, cache: "no-store" }, DEFAULT_LATEST_NEWS);
 }
 
 export async function getLatestEvents(locale: string, limit: number = 2): Promise<Event[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/home/events/?limit=${limit}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/events/?limit=${limit}`;
   return fetchAPI<Event[]>(url, { locale, cache: "no-store" }, DEFAULT_LATEST_EVENTS);
 }
