@@ -17,9 +17,17 @@ export async function getSiteTitle(locale: string): Promise<SiteTitle> {
 
 export async function getNavigationGroups(locale: string): Promise<NavGroup[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/global/navigation/`;
-  return fetchAPI<NavGroup[]>(
+  const navGroups = await fetchAPI<NavGroup[]>(
     url,
     { locale, cache: "no-store" },
     DEFAULT_NAV_GROUPS
   );
+
+  // ID 기준으로 내비게이션 그룹과 하위 메뉴 정렬
+  return navGroups
+    .sort((a, b) => a.id - b.id)
+    .map(group => ({
+      ...group,
+      sub_menus: group.sub_menus.sort((a, b) => a.id - b.id)
+    }));
 }
