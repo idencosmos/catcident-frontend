@@ -57,9 +57,13 @@ export default async function ResourcesPage({
               <p className="text-sm line-clamp-2">
                 {resource.description.replace(/<[^>]+>/g, "")}
               </p>
-              <Link href={resource.file.file} target="_blank">
-                <Button variant="outline">Download</Button>
-              </Link>
+              {resource.file ? (
+                <Link href={resource.file.file} target="_blank">
+                  <Button variant="outline">Download</Button>
+                </Link>
+              ) : (
+                <Button variant="outline" disabled>No File Available</Button>
+              )}
             </CardContent>
           </Card>
         ))}

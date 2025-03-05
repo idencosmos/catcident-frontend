@@ -19,29 +19,42 @@ export default async function CharacterDetailPage({
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">{character.name}</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {character.image && (
-            <Image
-              src={character.image.file}
-              alt={character.name}
-              width={200}
-              height={300}
-              className="rounded-lg shadow-md"
+    <div className="container py-6 px-4">
+      <Suspense fallback={<Loading />}>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl">{character.name}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {character.image && (
+              <Image
+                src={character.image.file}
+                alt={character.name}
+                width={200}
+                height={300}
+                className="rounded-lg shadow-md"
+              />
+            )}
+            <div
+              className="prose text-foreground"
+              dangerouslySetInnerHTML={{ __html: character.description }}
             />
-          )}
-          <div
-            className="prose text-foreground"
-            dangerouslySetInnerHTML={{ __html: character.description }}
-          />
-          <p className="text-sm">Appears in: {character.books.map((b) => b.title).join(", ")}</p>
-          <p className="text-sm">Creator: {character.creator}</p>
-        </CardContent>
-      </Card>
-    </Suspense>
+            <p className="text-sm">
+              Appears in:{" "}
+              {character.books && Array.isArray(character.books)
+                ? character.books.map((b) => b.title).join(", ")
+                : ""}
+            </p>
+            <p className="text-sm">
+              Creator:{" "}
+              {typeof character.creator === "object" &&
+              character.creator !== null
+                ? character.creator.name
+                : character.creator || "미상"}
+            </p>
+          </CardContent>
+        </Card>
+      </Suspense>
+    </div>
   );
 }

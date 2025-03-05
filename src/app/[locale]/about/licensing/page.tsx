@@ -23,21 +23,24 @@ export default async function LicensingPage({
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">{license.title}</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Last updated: {new Date(license.updated_at).toLocaleDateString(locale)}
-          </p>
-        </CardHeader>
-        <CardContent>
-          <div
-            className="prose text-foreground"
-            dangerouslySetInnerHTML={{ __html: license.content }}
-          />
-        </CardContent>
-      </Card>
-    </Suspense>
+    <div className="container py-6 px-4">
+      <Suspense fallback={<Loading />}>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl">{license.title}</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Last updated:{" "}
+              {new Date(license.updated_at).toLocaleDateString(locale)}
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div
+              className="prose text-foreground"
+              dangerouslySetInnerHTML={{ __html: license.content }}
+            />
+          </CardContent>
+        </Card>
+      </Suspense>
+    </div>
   );
 }

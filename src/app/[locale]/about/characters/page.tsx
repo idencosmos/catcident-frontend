@@ -26,7 +26,7 @@ export default async function CharactersPage({
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="py-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         {characters.map((character) => (
           <Link key={character.id} href={`/${locale}/about/characters/${character.slug}`}>
             <Card className="hover:shadow-lg transition-shadow">

@@ -25,11 +25,13 @@ export default async function HistoryPage({
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="space-y-8">
+      <div className="container py-6 px-4 space-y-8">
         {events.map((event) => (
           <Card key={event.id} className="flex flex-col md:flex-row gap-4">
             <CardHeader className="w-full md:w-1/4">
-              <CardTitle>{new Date(event.date).toLocaleDateString(locale)}</CardTitle>
+              <CardTitle>
+                {new Date(event.date).toLocaleDateString(locale)}
+              </CardTitle>
             </CardHeader>
             <CardContent className="w-full md:w-3/4 space-y-2">
               {event.image && (
