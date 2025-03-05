@@ -1,6 +1,6 @@
 // src/app/[locale]/home/_sections/NewsSection.tsx
 import { getLatestNews } from '@/lib/api/home';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { News } from '@/lib/api/_types/news';
 
@@ -10,13 +10,13 @@ interface NewsSectionProps {
 
 export default async function NewsSection({ locale }: NewsSectionProps) {
   const news: News[] = await getLatestNews(locale, 2);
-
+  
   return (
-    <Card className="p-6">
-      <CardHeader>
+    <>
+      <CardHeader className="px-0 pt-0">
         <CardTitle className="text-2xl">최신 뉴스</CardTitle>
       </CardHeader>
-      <CardContent>
+      <div className="mt-4">
         <div className="space-y-4">
           {news.map((item) => (
             <Link key={item.id} href={`/${locale}/news/${item.id}`}>
@@ -32,7 +32,7 @@ export default async function NewsSection({ locale }: NewsSectionProps) {
             </Link>
           ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </>
   );
 }

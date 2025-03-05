@@ -1,6 +1,6 @@
 // src/app/[locale]/home/_sections/EventsSection.tsx
 import { getLatestEvents } from '@/lib/api/home';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { Event } from '@/lib/api/_types/event';
 
@@ -10,13 +10,13 @@ interface EventsSectionProps {
 
 export default async function EventsSection({ locale }: EventsSectionProps) {
   const events: Event[] = await getLatestEvents(locale, 2);
-
+  
   return (
-    <Card className="p-6">
-      <CardHeader>
+    <>
+      <CardHeader className="px-0 pt-0">
         <CardTitle className="text-2xl">최신 이벤트</CardTitle>
       </CardHeader>
-      <CardContent>
+      <div className="mt-4">
         <div className="space-y-4">
           {events.map((event) => (
             <Link key={event.id} href={`/${locale}/events/${event.id}`}>
@@ -32,7 +32,7 @@ export default async function EventsSection({ locale }: EventsSectionProps) {
             </Link>
           ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { CardHeader, CardTitle } from "@/components/ui/card";
 
 interface VideoSectionProps {
   content: string; // HomeSection의 content 필드에서 가져온 언어별 데이터
@@ -10,8 +10,10 @@ export default function VideoSection({ content }: VideoSectionProps) {
   const videoUrl = !isEmbedCode ? content : undefined;
 
   return (
-    <Card className="p-6">
-      <h2 className="text-2xl font-bold">Video Section</h2>
+    <>
+      <CardHeader className="px-0 pt-0">
+        <CardTitle className="text-2xl">Video Section</CardTitle>
+      </CardHeader>
       <div className="mt-4">
         {videoUrl ? (
           // content가 URL일 경우 <video> 태그로 렌더링
@@ -21,6 +23,6 @@ export default function VideoSection({ content }: VideoSectionProps) {
           <div dangerouslySetInnerHTML={{ __html: content }} />
         )}
       </div>
-    </Card>
+    </>
   );
 }

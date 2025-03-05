@@ -1,6 +1,6 @@
 // src/app/[locale]/home/_sections/BooksSection.tsx
 import { getLatestBooks } from '@/lib/api/home';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { Book } from '@/lib/api/_types/about/book';
 
@@ -10,13 +10,13 @@ interface BooksSectionProps {
 
 export default async function BooksSection({ locale }: BooksSectionProps) {
   const books: Book[] = await getLatestBooks(locale, 3);
-
+  
   return (
-    <Card className="p-6">
-      <CardHeader>
+    <>
+      <CardHeader className="px-0 pt-0">
         <CardTitle className="text-2xl">최신 책</CardTitle>
       </CardHeader>
-      <CardContent>
+      <div className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {books.map((book) => (
             <div key={book.id} className="space-y-2">
@@ -36,7 +36,7 @@ export default async function BooksSection({ locale }: BooksSectionProps) {
             </div>
           ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </>
   );
 }
