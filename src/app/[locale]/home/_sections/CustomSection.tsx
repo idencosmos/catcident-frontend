@@ -1,15 +1,17 @@
-import React from 'react';
-import { Card } from 'shadcn/ui';
+// src/app/[locale]/home/_sections/CustomSection.tsx
+import { Card } from "@/components/ui/card";
 
-const CustomSection = () => {
+interface CustomSectionProps {
+  content: string;
+}
+
+export default function CustomSection({ content }: CustomSectionProps) {
   return (
-    <Card className="w-full md:w-1/2">
-      <div className="p-4">
-        <h2 className="text-xl font-bold mb-4">Custom Section</h2>
-        <p>This is a custom section.</p>
-      </div>
+    <Card className="p-6">
+      <div
+        className="prose text-foreground"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </Card>
   );
-};
-
-export default CustomSection;
+}

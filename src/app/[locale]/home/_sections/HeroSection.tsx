@@ -1,15 +1,16 @@
-import React from 'react';
-import { Card } from 'shadcn/ui';
+import { getHeroSlides } from "@/lib/api/home";
+import { HeroSlide } from "@/lib/api/_types/home";
+import { HeroSectionClient } from "./HeroSectionClient";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  locale: string;
+}
+
+export default async function HeroSection({ locale }: HeroSectionProps) {
+  const slides: HeroSlide[] = await getHeroSlides(locale);
   return (
-    <Card className="w-full md:w-1/2">
-      <div className="p-4">
-        <h1 className="text-3xl font-bold mb-4">Welcome to Our Website</h1>
-        <p className="text-lg">Discover amazing content and stay updated with the latest news.</p>
+      <div className="w-full">
+        <HeroSectionClient slides={slides} />
       </div>
-    </Card>
   );
-};
-
-export default HeroSection;
+}
