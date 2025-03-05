@@ -1,11 +1,12 @@
 // src/components/layout/Header/Header.tsx
-'use client';
+"use client";
 
-import { useHeaderScrollBehavior } from '@/hooks/useHeaderScrollBehavior';
-import MainNav from './MainNav';
-import ModeToggle from './ModeToggle';
-import LanguageSwitcher from './LanguageSwitcher';
-import { NavigationMenu } from '@/components/ui/navigation-menu';
+import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
+import MainNav from "./MainNav";
+import ModeToggle from "./ModeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { NavigationMenu } from "@/components/ui/navigation-menu";
+import { Link } from "@/i18n/routing";
 
 interface SubMenu {
   id: number;
@@ -37,11 +38,16 @@ export default function Header({ siteTitle, navGroups }: HeaderProps) {
       style={{
         height: `${headerHeight}px`,
         transform: `translateY(${headerOffset}px)`,
-        transition: 'transform 0.2s ease-in-out',
+        transition: "transform 0.2s ease-in-out",
       }}
     >
       <div className="container mx-auto flex h-full items-center justify-between px-4">
-        <div className="font-bold text-xl">{siteTitle}</div>
+        <Link
+          href="/home"
+          className="font-bold text-xl hover:text-primary transition-colors"
+        >
+          {siteTitle}
+        </Link>
         <div className="hidden md:flex items-center space-x-4">
           <NavigationMenu>
             <MainNav menuGroups={navGroups} />
