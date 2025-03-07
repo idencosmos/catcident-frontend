@@ -1,8 +1,8 @@
 // src/components/layout/Header/MainNav.tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Menu } from 'lucide-react';
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,10 +10,16 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/navigation-menu";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface SubMenu {
   id: number;
@@ -38,43 +44,63 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
 
   if (mobile) {
     return (
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerTrigger asChild>
           <Button variant="ghost" size="icon" aria-label="Open Menu">
             <Menu className="h-5 w-5" />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="w-full p-4">
-          <SheetHeader>
-            <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
-          </SheetHeader>
-          <ul className="mt-6 flex flex-col space-y-4">
+        </DrawerTrigger>
+        <DrawerContent className="p-8 pt-0">
+          <DrawerHeader className="pt-4">
+            <div className="flex items-center justify-between">
+              <DrawerTitle className="text-2xl font-semibold">Menu</DrawerTitle>
+              <button className="text-2xl" onClick={() => setOpen(false)}>
+                <X />
+              </button>
+            </div>
+          </DrawerHeader>
+          <ul className="mt-4 space-y-2">
             {menuGroups.map((group) => (
               <li key={group.id}>
-                <span className="font-bold">{group.group_label}</span>
-                {group.sub_menus.length > 0 && (
-                  <ul className="ml-4 mt-1 space-y-1">
-                    {group.sub_menus.map((sub) => (
-                      <li key={sub.id}>
-                        <a
-                          href={sub.href}
-                          className="block text-muted-foreground hover:text-foreground"
-                          onClick={() => setOpen(false)}
-                        >
-                          {sub.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                {group.sub_menus.length === 1 ? (
+                  <a
+                    href={group.sub_menus[0].href}
+                    className="block px-3 py-2 text-base font-medium text-foreground hover:text-accent"
+                    onClick={() => setOpen(false)}
+                  >
+                    {group.group_label}
+                  </a>
+                ) : (
+                  <>
+                    <span className="px-3 py-2 text-base font-medium text-foreground">
+                      {group.group_label}
+                    </span>
+                    {group.sub_menus.length > 0 && (
+                      <ul className="ml-4 mt-2 mb-4 space-y-1">
+                        {group.sub_menus.map((sub) => (
+                          <li key={sub.id}>
+                            <a
+                              href={sub.href}
+                              className="block px-3 py-1 text-base text-muted-foreground hover:text-foreground"
+                              onClick={() => setOpen(false)}
+                            >
+                              {sub.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
                 )}
               </li>
             ))}
           </ul>
-        </SheetContent>
-      </Sheet>
+        </DrawerContent>
+      </Drawer>
     );
   }
 
+  // 데스크톱 네비게이션 (기존 코드 유지)
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -105,7 +131,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
             ) : (
               <NavigationMenuLink asChild>
                 <a
-                  href={group.sub_menus[0]?.href ?? '#'}
+                  href={group.sub_menus[0]?.href ?? "#"}
                   className={cn(
                     "px-3 py-2 text-sm font-medium",
                     group.highlighted ? "text-accent" : "text-foreground hover:text-accent"
