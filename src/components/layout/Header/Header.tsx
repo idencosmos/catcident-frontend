@@ -1,4 +1,3 @@
-// src/components/layout/Header/Header.tsx
 "use client";
 
 import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
@@ -29,37 +28,38 @@ interface HeaderProps {
 
 export default function Header({ siteTitle, navGroups }: HeaderProps) {
   const headerHeight = 64;
-  const subNavHeight = 48;
-  const { headerOffset } = useHeaderScrollBehavior(headerHeight, subNavHeight);
+  const { headerOffset } = useHeaderScrollBehavior(headerHeight);
 
   return (
-    <header
-      className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur-md"
-      style={{
-        height: `${headerHeight}px`,
-        transform: `translateY(${headerOffset}px)`,
-        transition: "transform 0.2s ease-in-out",
-      }}
-    >
-      <div className="container mx-auto flex h-full items-center justify-between px-4">
-        <Link
-          href="/home"
-          className="font-bold text-xl hover:text-primary transition-colors"
-        >
-          {siteTitle}
-        </Link>
-        <div className="hidden md:flex items-center space-x-4">
-          <NavigationMenu>
-            <MainNav menuGroups={navGroups} />
-          </NavigationMenu>
-          <ModeToggle />
-          <LanguageSwitcher />
+    <>
+      <header
+        className="sticky top-0 z-50 border-b bg-background/50 backdrop-blur-md"
+        style={{
+          height: `${headerHeight}px`,
+          transform: `translateY(${headerOffset}px)`,
+          transition: "transform 0.2s ease-in-out",
+        }}
+      >
+        <div className="container flex h-full items-center justify-between">
+          <Link
+            href="/home"
+            className="font-bold text-xl hover:text-primary transition-colors"
+          >
+            {siteTitle}
+          </Link>
+          <div className="hidden md:flex items-center space-x-4">
+            <NavigationMenu>
+              <MainNav menuGroups={navGroups} />
+            </NavigationMenu>
+            <ModeToggle />
+            <LanguageSwitcher />
+          </div>
+          <div className="flex md:hidden items-center space-x-2">
+            <ModeToggle />
+            <MainNav menuGroups={navGroups} mobile />
+          </div>
         </div>
-        <div className="flex md:hidden items-center space-x-2">
-          <ModeToggle />
-          <MainNav menuGroups={navGroups} mobile />
-        </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }

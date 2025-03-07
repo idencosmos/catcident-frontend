@@ -1,7 +1,12 @@
-'use client';
+"use client";
 
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
-import Link from "next/link";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import { Link } from "@/i18n/routing";
 import { usePathname } from "@/i18n/routing";
 import { SubNavItem } from "./SubNavBarItem";
 import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
@@ -10,26 +15,26 @@ import { cn } from "@/lib/utils";
 interface SubNavBarProps {
   items: SubNavItem[];
   defaultValue?: string | null;
-  headerHeight: number;
 }
 
-export default function SubNavBar({ items, headerHeight }: SubNavBarProps) {
+export default function SubNavBar({ items }: SubNavBarProps) {
   const pathname = usePathname();
+  const headerHeight = 64;
   const subNavHeight = 48;
-  const { subNavOffset } = useHeaderScrollBehavior(headerHeight, subNavHeight);
+  const { subNavOffset } = useHeaderScrollBehavior(headerHeight);
 
   return (
     <>
       <div
-        className="fixed z-40 w-full border-b bg-background/95 backdrop-blur-md"
+        className="sticky z-40 border-b bg-background/50 backdrop-blur-md"
         style={{
           top: `${headerHeight}px`,
           height: `${subNavHeight}px`,
           transform: `translateY(${subNavOffset}px)`,
-          transition: 'transform 0.2s ease-in-out',
+          transition: "transform 0.2s ease-in-out",
         }}
       >
-        <div className="container mx-auto px-4 h-full">
+        <div className="container h-full">
           <NavigationMenu className="h-full">
             <NavigationMenuList className="flex h-full space-x-1">
               {items.map((item) => (
@@ -53,7 +58,6 @@ export default function SubNavBar({ items, headerHeight }: SubNavBarProps) {
           </NavigationMenu>
         </div>
       </div>
-      <div style={{ height: `${subNavHeight}px` }} />
     </>
   );
 }
