@@ -11,6 +11,7 @@ import { usePathname } from "@/i18n/routing";
 import { SubNavItem } from "./SubNavBarItem";
 import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
 import { cn } from "@/lib/utils";
+import Container from "@/components/common/Container";
 
 interface SubNavBarProps {
   items: SubNavItem[];
@@ -34,7 +35,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
           transition: "transform 0.2s ease-in-out",
         }}
       >
-        <div className="container h-full">
+        <Container variant="horizontal" className="h-full">
           <NavigationMenu className="h-full">
             <NavigationMenuList className="flex h-full space-x-1">
               {items.map((item) => (
@@ -56,7 +57,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-        </div>
+        </Container>
       </div>
     </>
   );

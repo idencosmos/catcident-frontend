@@ -1,9 +1,9 @@
-import { getCreator } from "@/lib/api/about";
-import { notFound } from "next/navigation";
-import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Creator } from "@/lib/api/_types/about/creator";
 import { Suspense } from "react";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getCreator } from "@/lib/api/about";
+import { Creator } from "@/lib/api/_types/about/creator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loading from "../loading";
 
 export default async function CreatorSlugPage({

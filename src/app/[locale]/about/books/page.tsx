@@ -1,19 +1,23 @@
 // src/app/[locale]/about/books/page.tsx
+import Image from "next/image";
+
+import { Link } from "@/i18n/routing";
 import { getBooks } from "@/lib/api/about";
 import { Book } from "@/lib/api/_types/about/book";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
+import Grid from "@/components/common/Grid";
+
+interface PageProps {
+  params: { locale: string };
+  searchParams: { category?: string };
+}
 
 export default async function BooksPage({
   params: paramsPromise,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>;
-  searchParams: { category?: string };
-}) {
+  searchParams: searchParamsPromise,
+}: PageProps) {
   const { locale } = await paramsPromise;
-  const { category } = searchParams;
+  const { category } = await searchParamsPromise;
 
   const books: Book[] = await getBooks(locale);
   const filteredBooks = category
@@ -21,9 +25,9 @@ export default async function BooksPage({
     : books;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <Grid variant="spacious">
       {filteredBooks.map((book) => (
-        <Link key={book.id} href={`/${locale}/about/books/${book.id}`}>
+        <Link key={book.id} href={`/about/books/${book.id}`}>
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <CardTitle>{book.title}</CardTitle>
@@ -45,6 +49,6 @@ export default async function BooksPage({
           </Card>
         </Link>
       ))}
-    </div>
+    </Grid>
   );
 }

@@ -19,7 +19,7 @@ export default async function EventsSection({ locale }: EventsSectionProps) {
       <div className="mt-4">
         <div className="space-y-4">
           {events.map((event) => (
-            <Link key={event.id} href={`/${locale}/events/${event.id}`}>
+            <Link key={event.id} href={`/events/${event.id}`}>
               <div className="hover:shadow-lg transition-shadow p-4 border rounded-md">
                 <h3 className="text-lg font-semibold">{event.title}</h3>
                 <p className="text-sm text-muted-foreground">

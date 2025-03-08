@@ -1,11 +1,14 @@
 import { Suspense } from "react";
+
 import { setRequestLocale } from "next-intl/server";
+
 import { ResourceCategory } from "@/lib/api/_types/resource";
 import { getResourceCategories } from "@/lib/api/resources";
 import SubNavBar from "@/components/layout/SubNavBar/SubNavBar";
 import { SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
+import { EmptyState } from "@/components/common/empty-state";
+import Container from "@/components/common/Container";
 import Loading from "./loading";
-import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function ResourcesLayout({
   children,
@@ -16,7 +19,6 @@ export default async function ResourcesLayout({
 }) {
   const { locale } = await paramsPromise;
   setRequestLocale(locale);
-  const headerHeight = 64;
 
   const categories: ResourceCategory[] = await getResourceCategories(locale);
 
@@ -30,21 +32,17 @@ export default async function ResourcesLayout({
   }
 
   const navItems: SubNavItem[] = categories.map((category) => ({
-    href: `/${locale}/resources?category=${category.slug}`,
+    href: `/resources?category=${category.slug}`,
     label: category.name,
     value: category.slug,
   }));
 
   return (
-    <div className="relative">
-      <SubNavBar
-        items={navItems}
-        defaultValue={categories[0].slug}
-        headerHeight={headerHeight}
-      />
-      <div className="container mx-auto px-4 py-6">
+    <>
+      <SubNavBar items={navItems} defaultValue={categories[0].slug} />
+      <Container>
         <Suspense fallback={<Loading />}>{children}</Suspense>
-      </div>
-    </div>
+      </Container>
+    </>
   );
 }

@@ -15,7 +15,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background text-foreground">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <body className="flex flex-col min-h-screen bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>

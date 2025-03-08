@@ -1,11 +1,12 @@
-import { getCreators } from '@/lib/api/about';
-import SubNavBar from '@/components/layout/SubNavBar/SubNavBar';
-import { Creator } from '@/lib/api/_types/about/creator';
-import { SubNavItem } from '@/components/layout/SubNavBar/SubNavBarItem';
-import { Suspense } from 'react';
-import Loading from './loading';
-import { setRequestLocale } from 'next-intl/server';
-import { EmptyState } from '@/components/ui/empty-state';
+import { Suspense } from "react";
+import { setRequestLocale } from "next-intl/server";
+import { getCreators } from "@/lib/api/about";
+import { Creator } from "@/lib/api/_types/about/creator";
+import { SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
+import SubNavBar from "@/components/layout/SubNavBar/SubNavBar";
+import { EmptyState } from "@/components/common/empty-state";
+import Container from "@/components/common/Container";
+import Loading from "./loading";
 
 export default async function CreatorLayout({
   children,
@@ -16,11 +17,9 @@ export default async function CreatorLayout({
 }) {
   const { locale } = await paramsPromise;
   setRequestLocale(locale);
-  const headerHeight = 64;
 
   const creators: Creator[] = await getCreators(locale);
 
-  // 데이터가 없으면 EmptyState를 표시
   if (creators.length === 0) {
     return (
       <EmptyState
@@ -31,21 +30,17 @@ export default async function CreatorLayout({
   }
 
   const navItems: SubNavItem[] = creators.map((creator) => ({
-    href: `/${locale}/about/creator/${creator.slug}`,
+    href: `/about/creator/${creator.slug}`,
     label: creator.name,
     value: creator.slug,
   }));
 
   return (
-    <div className="relative">
-      <SubNavBar
-        items={navItems}
-        defaultValue={creators[0].slug}
-        headerHeight={headerHeight}
-      />
-      <div className="container mx-auto px-4 py-6">
+    <>
+      <SubNavBar items={navItems} defaultValue={creators[0].slug} />
+      <Container>
         <Suspense fallback={<Loading />}>{children}</Suspense>
-      </div>
-    </div>
+      </Container>
+    </>
   );
 }

@@ -25,12 +25,15 @@ export default function LanguageSwitcher() {
 
   return (
     <Select value={currentLocale} onValueChange={handleChange}>
-      <SelectTrigger className="w-[120px]">
+      <SelectTrigger className="w-auto gap-2">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent
+        className="min-w-[0]"
+        align="end"
+      >
         {routing.locales.map((loc) => (
-          <SelectItem key={loc} value={loc}>
+          <SelectItem key={loc} value={loc} className="cursor-pointer">
             {loc.toUpperCase()}
           </SelectItem>
         ))}

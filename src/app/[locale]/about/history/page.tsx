@@ -1,10 +1,10 @@
+import { Suspense } from "react";
+import Image from "next/image";
 import { getHistoryEvents } from "@/lib/api/about";
 import { HistoryEvent } from "@/lib/api/_types/about/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import { Suspense } from "react";
+import { EmptyState } from "@/components/common/empty-state";
 import Loading from "./loading";
-import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function HistoryPage({
   params: paramsPromise,
@@ -25,30 +25,34 @@ export default async function HistoryPage({
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="container py-6 px-4 space-y-8">
-        {events.map((event) => (
-          <Card key={event.id} className="flex flex-col md:flex-row gap-4">
-            <CardHeader className="w-full md:w-1/4">
-              <CardTitle>
+      {events.map((event) => (
+        <Card key={event.id} className="overflow-hidden">
+          <div className="flex flex-col md:flex-row">
+            <CardHeader className="w-full md:w-1/4 p-4 sm:p-6 md:p-8 bg-muted/20">
+              <CardTitle className="text-primary">
                 {new Date(event.date).toLocaleDateString(locale)}
               </CardTitle>
             </CardHeader>
-            <CardContent className="w-full md:w-3/4 space-y-2">
+            <CardContent className="w-full md:w-3/4 p-4 sm:p-6 md:p-8 space-y-3">
               {event.image && (
-                <Image
-                  src={event.image.file}
-                  alt={event.title}
-                  width={200}
-                  height={150}
-                  className="rounded-md"
-                />
+                <div className="mb-4">
+                  <Image
+                    src={event.image.file}
+                    alt={event.title}
+                    width={300}
+                    height={200}
+                    className="rounded-md object-cover"
+                  />
+                </div>
               )}
-              <h3 className="text-lg font-semibold">{event.title}</h3>
-              <p className="text-foreground">{event.description}</p>
+              <h3 className="text-lg font-semibold md:text-xl">
+                {event.title}
+              </h3>
+              <p className="text-foreground/80">{event.description}</p>
             </CardContent>
-          </Card>
-        ))}
-      </div>
+          </div>
+        </Card>
+      ))}
     </Suspense>
   );
 }

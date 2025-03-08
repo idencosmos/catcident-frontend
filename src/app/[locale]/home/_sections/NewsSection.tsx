@@ -19,7 +19,7 @@ export default async function NewsSection({ locale }: NewsSectionProps) {
       <div className="mt-4">
         <div className="space-y-4">
           {news.map((item) => (
-            <Link key={item.id} href={`/${locale}/news/${item.id}`}>
+            <Link key={item.id} href={`/news/${item.id}`}>
               <div className="hover:shadow-lg transition-shadow p-4 border rounded-md">
                 <h3 className="text-lg font-semibold">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">

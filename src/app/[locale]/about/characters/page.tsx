@@ -1,11 +1,13 @@
+import { Suspense } from "react";
+import Image from "next/image";
+
+import { Link } from "@/i18n/routing";
 import { getCharacters } from "@/lib/api/about";
 import { Character } from "@/lib/api/_types/about/character";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
-import { Suspense } from "react";
+import { EmptyState } from "@/components/common/empty-state";
+import Grid from "@/components/common/Grid";
 import Loading from "./loading";
-import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function CharactersPage({
   params: paramsPromise,
@@ -26,9 +28,12 @@ export default async function CharactersPage({
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="py-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Grid variant="spacious">
         {characters.map((character) => (
-          <Link key={character.id} href={`/${locale}/about/characters/${character.slug}`}>
+          <Link
+            key={character.id}
+            href={`/about/characters/${character.slug}`}
+          >
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle>{character.name}</CardTitle>
@@ -47,7 +52,7 @@ export default async function CharactersPage({
             </Card>
           </Link>
         ))}
-      </div>
+      </Grid>
     </Suspense>
   );
 }

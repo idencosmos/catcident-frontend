@@ -1,8 +1,8 @@
-// src/components/ui/empty-state.tsx
+// src/components/common/empty-state.tsx
 "use client"; // 클라이언트 컴포넌트로 변환
 
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
 interface EmptyStateProps {
   message: string;

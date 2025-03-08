@@ -1,11 +1,13 @@
+import { Suspense } from "react";
+
+import Image from "next/image";
+
+import { Link } from "@/i18n/routing";
+import { News } from "@/lib/api/_types/news";
 import { getNews } from "@/lib/api/news";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
-import { Suspense } from "react";
+import { EmptyState } from "@/components/common/empty-state";
 import Loading from "./loading";
-import { News } from "@/lib/api/_types/news";
-import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function NewsPage({
   params: paramsPromise,
@@ -25,16 +27,15 @@ export default async function NewsPage({
       <EmptyState
         message="이 카테고리에는 현재 뉴스가 없습니다."
         actionLabel="다른 카테고리 보기"
-        actionHref={`/${locale}/news`}
+        actionHref={`/news`}
       />
     );
   }
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="space-y-6">
         {filteredNews.map((item) => (
-          <Link key={item.id} href={`/${locale}/news/${item.id}`}>
+          <Link key={item.id} href={`/news/${item.id}`}>
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle>{item.title}</CardTitle>
@@ -57,7 +58,6 @@ export default async function NewsPage({
             </Card>
           </Link>
         ))}
-      </div>
     </Suspense>
   );
 }

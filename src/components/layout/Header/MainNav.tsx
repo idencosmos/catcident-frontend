@@ -99,7 +99,6 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
     );
   }
 
-  // 데스크톱 네비게이션 (변경 없음)
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -113,7 +112,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                   {group.group_label}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4">
+                  <ul className="grid min-w-[200px] gap-0 p-2">
                     {group.sub_menus.map((sub) => (
                       <li key={sub.id}>
                         <NavigationMenuLink asChild>

@@ -1,24 +1,37 @@
-import { getEventCategories } from "@/lib/api/events";
-import { EventCategory } from "@/lib/api/_types/event";
-import SubNavBar from "@/components/layout/SubNavBar/SubNavBar";
-import { SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
 import { Suspense } from "react";
-import Loading from "./loading";
 import { setRequestLocale } from "next-intl/server";
-import { EmptyState } from "@/components/ui/empty-state";
+import { type EventCategory } from "@/lib/api/_types/event";
+import { getEventCategories } from "@/lib/api/events";
+import { type SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
+import SubNavBar from "@/components/layout/SubNavBar/SubNavBar";
+import { EmptyState } from "@/components/common/empty-state";
+import Container from "@/components/common/Container";
+import Loading from "./loading";
+
+interface LayoutProps {
+  children: React.ReactNode;
+  params: { locale: string };
+}
 
 export default async function EventsLayout({
   children,
   params: paramsPromise,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+}: LayoutProps) {
   const { locale } = await paramsPromise;
   setRequestLocale(locale);
-  const headerHeight = 64;
 
-  const categories: EventCategory[] = await getEventCategories(locale);
+  let categories: EventCategory[];
+  try {
+    categories = await getEventCategories(locale);
+  } catch (error) {
+    console.error("Failed to fetch event categories:", error);
+    return (
+      <EmptyState
+        message="이벤트 카테고리를 불러오는 중 오류가 발생했습니다."
+        showRefresh
+      />
+    );
+  }
 
   if (categories.length === 0) {
     return (
@@ -30,21 +43,17 @@ export default async function EventsLayout({
   }
 
   const navItems: SubNavItem[] = categories.map((category) => ({
-    href: `/${locale}/events?category=${category.slug}`,
+    href: `/events?category=${category.slug}`,
     label: category.name,
     value: category.slug,
   }));
 
   return (
-    <div className="relative">
-      <SubNavBar
-        items={navItems}
-        defaultValue={categories[0].slug}
-        headerHeight={headerHeight}
-      />
-      <div className="container mx-auto px-4 py-6">
+    <>
+      <SubNavBar items={navItems} defaultValue={categories[0].slug} />
+      <Container>
         <Suspense fallback={<Loading />}>{children}</Suspense>
-      </div>
-    </div>
+      </Container>
+    </>
   );
 }

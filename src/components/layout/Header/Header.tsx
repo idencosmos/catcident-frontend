@@ -6,6 +6,7 @@ import ModeToggle from "./ModeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Link } from "@/i18n/routing";
+import Container from "@/components/common/Container";
 
 interface SubMenu {
   id: number;
@@ -40,7 +41,10 @@ export default function Header({ siteTitle, navGroups }: HeaderProps) {
           transition: "transform 0.2s ease-in-out",
         }}
       >
-        <div className="container flex h-full items-center justify-between">
+        <Container
+          variant="horizontal"
+          className="flex h-full items-center justify-between"
+        >
           <Link
             href="/home"
             className="font-bold text-xl hover:text-primary transition-colors"
@@ -58,7 +62,7 @@ export default function Header({ siteTitle, navGroups }: HeaderProps) {
             <ModeToggle />
             <MainNav menuGroups={navGroups} mobile />
           </div>
-        </div>
+        </Container>
       </header>
     </>
   );

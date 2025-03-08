@@ -1,11 +1,14 @@
-import { getBookCategories } from '@/lib/api/about';
-import SubNavBar from '@/components/layout/SubNavBar/SubNavBar';
-import { BookCategory } from '@/lib/api/_types/about/book';
-import { SubNavItem } from '@/components/layout/SubNavBar/SubNavBarItem';
-import { Suspense } from 'react';
-import Loading from './loading';
-import { setRequestLocale } from 'next-intl/server';
-import { EmptyState } from '@/components/ui/empty-state';
+import { Suspense } from "react";
+
+import { setRequestLocale } from "next-intl/server";
+
+import { getBookCategories } from "@/lib/api/about";
+import { BookCategory } from "@/lib/api/_types/about/book";
+import Container from "@/components/common/Container";
+import SubNavBar from "@/components/layout/SubNavBar/SubNavBar";
+import { SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
+import { EmptyState } from "@/components/common/empty-state";
+import Loading from "./loading";
 
 export default async function BooksLayout({
   children,
@@ -16,11 +19,9 @@ export default async function BooksLayout({
 }) {
   const { locale } = await paramsPromise;
   setRequestLocale(locale);
-  const headerHeight = 64;
 
   const categories: BookCategory[] = await getBookCategories(locale);
 
-  // 데이터가 없으면 EmptyState를 표시
   if (categories.length === 0) {
     return (
       <EmptyState
@@ -31,21 +32,17 @@ export default async function BooksLayout({
   }
 
   const navItems: SubNavItem[] = categories.map((category) => ({
-    href: `/${locale}/about/books?category=${category.slug}`,
+    href: `/about/books?category=${category.slug}`,
     label: category.name,
     value: category.slug,
   }));
 
   return (
-    <div className="relative">
-      <SubNavBar
-        items={navItems}
-        defaultValue={categories[0].slug}
-        headerHeight={headerHeight}
-      />
-      <div className="container mx-auto px-4 py-6">
+    <>
+      <SubNavBar items={navItems} defaultValue={categories[0].slug} />
+      <Container>
         <Suspense fallback={<Loading />}>{children}</Suspense>
-      </div>
-    </div>
+      </Container>
+    </>
   );
 }

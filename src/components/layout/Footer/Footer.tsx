@@ -1,7 +1,12 @@
-// src/components/layout/Footer/Footer.tsx
-import React from 'react';
-import { getFooterSections, getFamilySites, getCopyright } from '@/lib/api/footer';
-import { FooterSection, FamilySite, Copyright } from '@/lib/api/_types/footer';
+import React from "react";
+import {
+  getFooterSections,
+  getFamilySites,
+  getCopyright,
+} from "@/lib/api/footer";
+import { FooterSection, FamilySite, Copyright } from "@/lib/api/_types/footer";
+import Container from "@/components/common/Container";
+import Grid from "@/components/common/Grid";
 
 export interface FooterProps {
   locale: string;
@@ -13,31 +18,31 @@ export default async function Footer({ locale }: FooterProps) {
   const copyrightData: Copyright = await getCopyright(locale);
 
   return (
-    <footer className="mt-10 bg-background/95 backdrop-blur-md border-t">
-      <div className="border-b py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-sm">
-            {footerSections.map((section) => (
-              <div key={section.id}>
-                <h2 className="font-semibold text-lg mb-2">{section.label}</h2>
-                {section.sub_menus && (
-                  <ul className="space-y-1">
-                    {section.sub_menus.map((sub) => (
-                      <li key={sub.id}>
-                        <a href={sub.href} className="hover:text-accent">
-                          {sub.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="py-6">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row md:items-center md:justify-between space-y-6 md:space-y-0 text-sm text-muted-foreground">
+    <footer className="bg-background/95 backdrop-blur-md border-t">
+      <Container className="border-b">
+        <Grid className="text-sm">
+          {footerSections.map((section) => (
+            <div key={section.id}>
+              <h2 className="font-semibold text-lg mb-1 sm:mb-2">
+                {section.label}
+              </h2>
+              {section.sub_menus && (
+                <ul className="space-y-1">
+                  {section.sub_menus.map((sub) => (
+                    <li key={sub.id}>
+                      <a href={sub.href} className="hover:text-accent">
+                        {sub.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </Grid>
+      </Container>
+      <Container>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-6 md:space-y-0 text-sm text-muted-foreground">
           <div>
             <h3 className="font-semibold mb-2">Family Sites</h3>
             <ul className="flex gap-4">
@@ -54,7 +59,7 @@ export default async function Footer({ locale }: FooterProps) {
             © {new Date().getFullYear()} {copyrightData.text}
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

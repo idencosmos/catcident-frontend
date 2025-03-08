@@ -1,12 +1,15 @@
+import { Suspense } from "react";
+
+import Image from "next/image";
+
+import { Link } from "@/i18n/routing";
+import { Resource } from "@/lib/api/_types/resource";
 import { getResources } from "@/lib/api/resources";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Suspense } from "react";
+import { EmptyState } from "@/components/common/empty-state";
+import Grid from "@/components/common/Grid";
 import Loading from "./loading";
-import { Resource } from "@/lib/api/_types/resource";
-import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function ResourcesPage({
   params: paramsPromise,
@@ -28,14 +31,14 @@ export default async function ResourcesPage({
       <EmptyState
         message="이 카테고리에는 현재 리소스가 없습니다."
         actionLabel="다른 카테고리 보기"
-        actionHref={`/${locale}/resources`}
+        actionHref={`/resources`}
       />
     );
   }
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Grid variant="spacious">
         {filteredResources.map((resource) => (
           <Card key={resource.id} className="hover:shadow-lg transition-shadow">
             <CardHeader>
@@ -67,7 +70,7 @@ export default async function ResourcesPage({
             </CardContent>
           </Card>
         ))}
-      </div>
+      </Grid>
     </Suspense>
   );
 }
