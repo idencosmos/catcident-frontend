@@ -5,8 +5,8 @@ import Loading from "./loading";
 import EventsClient from "./_components/EventsClient";
 
 interface PageProps {
-  params: { locale: string };
-  searchParams: { category?: string; showEvent?: string };
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ category?: string; showEvent?: string }>;
 }
 
 export default async function EventsPage({

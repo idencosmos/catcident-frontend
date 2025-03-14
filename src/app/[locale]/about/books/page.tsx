@@ -8,8 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Grid from "@/components/common/Grid";
 
 interface PageProps {
-  params: { locale: string };
-  searchParams: { category?: string };
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ category?: string }>;
 }
 
 export default async function BooksPage({

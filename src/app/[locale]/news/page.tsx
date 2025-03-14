@@ -11,13 +11,13 @@ import Loading from "./loading";
 
 export default async function NewsPage({
   params: paramsPromise,
-  searchParams,
+  searchParams: searchParamsPromise,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: { category?: string };
+  searchParams: Promise<{ category?: string }>;
 }) {
   const { locale } = await paramsPromise;
-  const { category } = await searchParams;
+  const { category } = await searchParamsPromise;
 
   const news: News[] = await getNews(locale);
   const filteredNews = category ? news.filter(item => item.category?.slug === category) : news;
