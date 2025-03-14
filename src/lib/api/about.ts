@@ -1,10 +1,10 @@
 // src/lib/api/about.ts
-import { fetchAPI } from './common';
-import { Creator } from '@/lib/api/_types/about/creator';
-import { BookCategory, Book } from '@/lib/api/_types/about/book';
-import { Character } from '@/lib/api/_types/about/character';
-import { HistoryEvent } from '@/lib/api/_types/about/history';
-import { LicensePage } from '@/lib/api/_types/about/license';
+import { fetchAPI } from "./common";
+import { Creator } from "@/lib/api/_types/about/creator";
+import { BookCategory, Book } from "@/lib/api/_types/about/book";
+import { Character } from "@/lib/api/_types/about/character";
+import { HistoryEvent } from "@/lib/api/_types/about/history";
+import { LicensePage } from "@/lib/api/_types/about/license";
 
 const DEFAULT_CREATORS: Creator[] = [];
 const DEFAULT_CREATOR: Creator = {
@@ -58,50 +58,103 @@ const DEFAULT_LICENSE_PAGE: LicensePage = {
 
 export async function getCreators(locale: string): Promise<Creator[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/creators/`;
-  return fetchAPI<Creator[]>(url, { locale, cache: "no-store" }, DEFAULT_CREATORS);
+  return fetchAPI<Creator[]>(
+    url,
+    { locale, tags: ["about", "creators"] },
+    DEFAULT_CREATORS
+  );
 }
 
-export async function getCreator(slug: string, locale: string): Promise<Creator> {
+export async function getCreator(
+  slug: string,
+  locale: string
+): Promise<Creator> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/creators/${slug}/`;
-  return fetchAPI<Creator>(url, { locale, cache: "no-store" }, DEFAULT_CREATOR);
+  return fetchAPI<Creator>(
+    url,
+    { locale, tags: ["about", "creators", `creator-${slug}`] },
+    DEFAULT_CREATOR
+  );
 }
 
-export async function getBookCategories(locale: string): Promise<BookCategory[]> {
+export async function getBookCategories(
+  locale: string
+): Promise<BookCategory[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/book-categories/`;
-  return fetchAPI<BookCategory[]>(url, { locale, cache: "no-store" }, DEFAULT_BOOK_CATEGORIES);
+  return fetchAPI<BookCategory[]>(
+    url,
+    { locale, tags: ["about", "books", "bookcategories"] },
+    DEFAULT_BOOK_CATEGORIES
+  );
 }
 
 export async function getBooks(locale: string): Promise<Book[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/`;
-  return fetchAPI<Book[]>(url, { locale, cache: "no-store" }, DEFAULT_BOOKS);
+  return fetchAPI<Book[]>(
+    url,
+    { locale, tags: ["about", "books"] },
+    DEFAULT_BOOKS
+  );
 }
 
 export async function getBook(pk: number, locale: string): Promise<Book> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/${pk}/`;
-  return fetchAPI<Book>(url, { locale, cache: "no-store" }, DEFAULT_BOOK);
+  return fetchAPI<Book>(
+    url,
+    { locale, tags: ["about", "books", `book-${pk}`] },
+    DEFAULT_BOOK
+  );
 }
 
 export async function getCharacters(locale: string): Promise<Character[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/characters/`;
-  return fetchAPI<Character[]>(url, { locale, cache: "no-store" }, DEFAULT_CHARACTERS);
+  return fetchAPI<Character[]>(
+    url,
+    { locale, tags: ["about", "characters"] },
+    DEFAULT_CHARACTERS
+  );
 }
 
-export async function getCharacter(slug: string, locale: string): Promise<Character> {
+export async function getCharacter(
+  slug: string,
+  locale: string
+): Promise<Character> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/characters/${slug}/`;
-  return fetchAPI<Character>(url, { locale, cache: "no-store" }, DEFAULT_CHARACTER);
+  return fetchAPI<Character>(
+    url,
+    { locale, tags: ["about", "characters", `character-${slug}`] },
+    DEFAULT_CHARACTER
+  );
 }
 
-export async function getHistoryEvents(locale: string): Promise<HistoryEvent[]> {
+export async function getHistoryEvents(
+  locale: string
+): Promise<HistoryEvent[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/history/`;
-  return fetchAPI<HistoryEvent[]>(url, { locale, cache: "no-store" }, DEFAULT_HISTORY_EVENTS);
+  return fetchAPI<HistoryEvent[]>(
+    url,
+    { locale, tags: ["about", "history"] },
+    DEFAULT_HISTORY_EVENTS
+  );
 }
 
-export async function getHistoryEvent(pk: number, locale: string): Promise<HistoryEvent> {
+export async function getHistoryEvent(
+  pk: number,
+  locale: string
+): Promise<HistoryEvent> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/history/${pk}/`;
-  return fetchAPI<HistoryEvent>(url, { locale, cache: "no-store" }, DEFAULT_HISTORY_EVENT);
+  return fetchAPI<HistoryEvent>(
+    url,
+    { locale, tags: ["about", "history"] },
+    DEFAULT_HISTORY_EVENT
+  );
 }
 
 export async function getLicensePage(locale: string): Promise<LicensePage> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/license/`;
-  return fetchAPI<LicensePage>(url, { locale, cache: "no-store" }, DEFAULT_LICENSE_PAGE);
+  return fetchAPI<LicensePage>(
+    url,
+    { locale, tags: ["about", "license"] },
+    DEFAULT_LICENSE_PAGE
+  );
 }

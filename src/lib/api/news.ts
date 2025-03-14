@@ -20,17 +20,21 @@ export async function getNewsCategories(
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/news/categories/`;
   return fetchAPI<NewsCategory[]>(
     url,
-    { locale, cache: "no-store" },
+    { locale, tags: ["news", "newscategories"] },
     DEFAULT_NEWS_CATEGORIES
   );
 }
 
 export async function getNews(locale: string): Promise<News[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/news/`;
-  return fetchAPI<News[]>(url, { locale, cache: "no-store" }, DEFAULT_NEWS);
+  return fetchAPI<News[]>(url, { locale, tags: ["news"] }, DEFAULT_NEWS);
 }
 
 export async function getNewsItem(id: number, locale: string): Promise<News> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/news/${id}/`;
-  return fetchAPI<News>(url, { locale, cache: "no-store" }, DEFAULT_NEWS_ITEM);
+  return fetchAPI<News>(
+    url,
+    { locale, tags: ["news", `news-${id}`] },
+    DEFAULT_NEWS_ITEM
+  );
 }

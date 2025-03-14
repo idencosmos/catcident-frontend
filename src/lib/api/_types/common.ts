@@ -1,8 +1,8 @@
 // src/lib/api/_types/common.ts
 export interface Media {
   id: number;
-  file: string; // Django의 MediaSerializer에서 'file' 대신 'url'로 통일
-  uploaded_at: string; // ISO 형식
+  file: string;
+  uploaded_at: string;
   title: string;
   is_used_cached: boolean;
 }
@@ -10,6 +10,7 @@ export interface Media {
 export type FetchOptions = {
   locale: string;
   cache?: RequestCache;
+  tags?: string[];
   next?: {
     revalidate?: number;
   };

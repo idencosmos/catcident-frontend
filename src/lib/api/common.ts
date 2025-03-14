@@ -1,5 +1,5 @@
 // src/lib/api/common.ts
-import { FetchOptions } from './_types/common';
+import { FetchOptions } from "./_types/common";
 
 export async function fetchAPI<T>(
   url: string,
@@ -7,10 +7,28 @@ export async function fetchAPI<T>(
   defaultValue: T
 ): Promise<T> {
   try {
-    const res = await fetch(url, {
+    const fetchOptions: RequestInit & {
+      next?: {
+        tags?: string[];
+        revalidate?: number;
+      };
+    } = {
       headers: { "Accept-Language": options.locale },
-      cache: options.cache ?? "force-cache",
-    });
+    };
+
+    // 태그 기반 캐싱 설정을 추가
+    if (options.tags && options.tags.length > 0) {
+      fetchOptions.next = {
+        tags: options.tags,
+      };
+    } else if (options.cache === "no-store") {
+      fetchOptions.cache = options.cache;
+    } else {
+      // 기본값은 force-cache
+      fetchOptions.cache = options.cache ?? "force-cache";
+    }
+
+    const res = await fetch(url, fetchOptions);
 
     if (!res.ok) {
       console.error(`Failed to fetch data from ${url}: ${res.status}`);
