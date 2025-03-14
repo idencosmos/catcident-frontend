@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
 export const metadata: Metadata = {
-  title: "My Next.js App",
-  description: "Next.js, next-intl, shadcn/ui example",
+  title: "Catcident",
+  description: "Welcome to Catcident.",
 };
 
 export default function RootLayout({

@@ -8,11 +8,5 @@ export const routing = defineRouting({
   defaultLocale,
 });
 
-export type Locale = (typeof routing.locales)[number];
-export const {
-  Link, // A localized version of Next.js' Link component
-  redirect, // Redirect users while considering locale
-  usePathname, // Hook to get the current pathname with locale awareness
-  useRouter, // Hook to access the router with locale awareness
-  getPathname, // Helper to construct localized pathnames
-} = createNavigation(routing);
+export const { Link, redirect, usePathname, useRouter, getPathname } =
+  createNavigation(routing);
