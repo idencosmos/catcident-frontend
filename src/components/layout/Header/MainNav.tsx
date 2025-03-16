@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Menu } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -61,12 +62,12 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
               <li key={group.id}>
                 {group.sub_menus.length === 1 ? (
                   <SheetClose asChild>
-                    <a
+                    <Link
                       href={group.sub_menus[0].href}
                       className="block px-3 py-2 text-base font-medium text-foreground hover:text-accent"
                     >
                       {group.group_label}
-                    </a>
+                    </Link>
                   </SheetClose>
                 ) : (
                   <>
@@ -78,12 +79,12 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                         {group.sub_menus.map((sub) => (
                           <li key={sub.id}>
                             <SheetClose asChild>
-                              <a
+                              <Link
                                 href={sub.href}
                                 className="block px-3 py-1 text-base text-muted-foreground hover:text-foreground"
                               >
                                 {sub.label}
-                              </a>
+                              </Link>
                             </SheetClose>
                           </li>
                         ))}
@@ -116,12 +117,12 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                     {group.sub_menus.map((sub) => (
                       <li key={sub.id}>
                         <NavigationMenuLink asChild>
-                          <a
+                          <Link
                             href={sub.href}
                             className="block select-none rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
                           >
                             {sub.label}
-                          </a>
+                          </Link>
                         </NavigationMenuLink>
                       </li>
                     ))}
@@ -130,7 +131,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
               </>
             ) : (
               <NavigationMenuLink asChild>
-                <a
+                <Link
                   href={group.sub_menus[0]?.href ?? "#"}
                   className={cn(
                     "px-3 py-2 text-sm font-medium",
@@ -140,7 +141,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                   )}
                 >
                   {group.group_label}
-                </a>
+                </Link>
               </NavigationMenuLink>
             )}
           </NavigationMenuItem>
