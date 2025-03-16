@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { HomeSection } from "@/lib/api/_types/home";
 import { getHomeSections } from "@/lib/api/home";
 import HeroSection from "./_sections/HeroSection";
-import VideoSection from "./_sections/VideoSection";
 import BooksSection from "./_sections/BooksSection";
 import AuthorsSection from "./_sections/AuthorsSection";
 import NewsSection from "./_sections/NewsSection";
@@ -51,9 +50,6 @@ export default async function HomePage({
               <CardContent className="h-[300px] sm:h-[350px] md:h-[400px] p-4 sm:p-8">
                 <ScrollArea className="h-full w-full">
                   <Suspense fallback={<HomePageSkeleton />}>
-                    {section.type === "video" && (
-                      <VideoSection content={section.content || ""} />
-                    )}
                     {section.type === "books" && (
                       <BooksSection locale={locale} />
                     )}
