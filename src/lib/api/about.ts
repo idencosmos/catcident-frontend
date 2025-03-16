@@ -80,7 +80,7 @@ export async function getCreator(
 export async function getBookCategories(
   locale: string
 ): Promise<BookCategory[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/book-categories/`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/books/categories/`;
   return fetchAPI<BookCategory[]>(
     url,
     { locale, tags: ["about", "books", "bookcategories"] },

@@ -1,6 +1,8 @@
 // src/lib/api/common.ts
 import { FetchOptions } from "./_types/common";
 
+const ONE_WEEK = 604800; // 1주일(초)
+
 export async function fetchAPI<T>(
   url: string,
   options: FetchOptions,
@@ -10,22 +12,21 @@ export async function fetchAPI<T>(
     const fetchOptions: RequestInit & {
       next?: {
         tags?: string[];
-        revalidate?: number;
+        revalidate?: number | false;
       };
+      cache?: RequestCache;
     } = {
       headers: { "Accept-Language": options.locale },
     };
 
-    // 태그 기반 캐싱 설정을 추가
-    if (options.tags && options.tags.length > 0) {
-      fetchOptions.next = {
-        tags: options.tags,
-      };
-    } else if (options.cache === "no-store") {
+    fetchOptions.next = {
+      ...(options.tags?.length ? { tags: options.tags } : {}),
+      revalidate: options.revalidate ?? ONE_WEEK,
+    };
+
+    // cache 옵션이 명시적으로 지정된 경우만 설정
+    if (options.cache) {
       fetchOptions.cache = options.cache;
-    } else {
-      // 기본값은 force-cache
-      fetchOptions.cache = options.cache ?? "force-cache";
     }
 
     const res = await fetch(url, fetchOptions);

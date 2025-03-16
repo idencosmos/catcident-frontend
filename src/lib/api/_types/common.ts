@@ -7,11 +7,10 @@ export interface Media {
   is_used_cached: boolean;
 }
 
-export type FetchOptions = {
+export interface FetchOptions {
   locale: string;
-  cache?: RequestCache;
   tags?: string[];
-  next?: {
-    revalidate?: number;
-  };
-};
+  cache?: RequestCache;
+
+  revalidate?: number | false;
+}

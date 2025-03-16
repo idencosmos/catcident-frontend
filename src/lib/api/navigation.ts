@@ -10,10 +10,7 @@ export async function getSiteTitle(locale: string): Promise<SiteTitle> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/global/sitetitle/`;
   return fetchAPI<SiteTitle>(
     url,
-    {
-      locale,
-      tags: ["global", "sitetitle"],
-    },
+    { locale, tags: ["global", "sitetitle"] },
     DEFAULT_SITE_TITLE
   );
 }
@@ -22,10 +19,7 @@ export async function getNavigationGroups(locale: string): Promise<NavGroup[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/global/navigation/`;
   const navGroups = await fetchAPI<NavGroup[]>(
     url,
-    {
-      locale,
-      tags: ["global", "navigation"],
-    },
+    { locale, tags: ["global", "navigation"] },
     DEFAULT_NAV_GROUPS
   );
 
