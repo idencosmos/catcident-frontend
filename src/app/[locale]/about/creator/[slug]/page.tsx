@@ -1,10 +1,30 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getCreator } from "@/lib/api/about";
+import { getCreator, getCreators } from "@/lib/api/about";
 import { Creator } from "@/lib/api/_types/about/creator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loading from "../loading";
+import { routing } from "@/i18n/routing";
+
+export async function generateStaticParams() {
+  const allPaths = [];
+
+  for (const locale of routing.locales) {
+    const creators = await getCreators(locale);
+
+    const paths = creators.map((creator) => ({
+      locale,
+      slug: creator.slug,
+    }));
+
+    allPaths.push(...paths);
+  }
+
+  return allPaths;
+}
+
+export const revalidate = 86400;
 
 export default async function CreatorSlugPage({
   params: paramsPromise,

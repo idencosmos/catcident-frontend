@@ -1,12 +1,30 @@
 import { Suspense } from "react";
-
 import { notFound } from "next/navigation";
 import Image from "next/image";
-
-import { getCharacter } from "@/lib/api/about";
+import { getCharacter, getCharacters } from "@/lib/api/about";
 import { Character } from "@/lib/api/_types/about/character";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Loading from "../loading";
+import { routing } from "@/i18n/routing";
+
+export async function generateStaticParams() {
+  const allPaths = [];
+
+  for (const locale of routing.locales) {
+    const characters = await getCharacters(locale);
+
+    const paths = characters.map((character) => ({
+      locale,
+      slug: character.slug,
+    }));
+
+    allPaths.push(...paths);
+  }
+
+  return allPaths;
+}
+
+export const revalidate = 86400;
 
 export default async function CharacterDetailPage({
   params: paramsPromise,
@@ -15,11 +33,9 @@ export default async function CharacterDetailPage({
 }) {
   const { locale, slug } = await paramsPromise;
   const character: Character = await getCharacter(slug, locale);
-
   if (character.id === -1) {
     notFound();
   }
-
   return (
     <Suspense fallback={<Loading />}>
       <Card>

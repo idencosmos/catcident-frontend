@@ -1,10 +1,31 @@
 import { Book } from "@/lib/api/_types/about/book";
-import { getBook } from "@/lib/api/about";
+import { getBook, getBooks } from "@/lib/api/about";
 import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Suspense } from "react";
 import Loading from "../loading";
+
+// 정적 경로 생성 추가
+export async function generateStaticParams() {
+  const allPaths = [];
+
+  for (const locale of routing.locales) {
+    const books = await getBooks(locale);
+
+    const paths = books.map((book) => ({
+      locale,
+      pk: book.id.toString(),
+    }));
+
+    allPaths.push(...paths);
+  }
+
+  return allPaths;
+}
+
+export const revalidate = 86400;
 
 export default async function BookDetailPage({
   params: paramsPromise,

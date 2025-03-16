@@ -1,12 +1,30 @@
 import { Suspense } from "react";
-
 import Image from "next/image";
-
 import { News } from "@/lib/api/_types/news";
-import { getNewsItem } from "@/lib/api/news";
+import { getNewsItem, getNews } from "@/lib/api/news";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/common/empty-state";
 import Loading from "../loading";
+import { routing } from "@/i18n/routing";
+
+export async function generateStaticParams() {
+  const allPaths = [];
+
+  for (const locale of routing.locales) {
+    const newsItems = await getNews(locale);
+
+    const paths = newsItems.map((newsItem) => ({
+      locale,
+      id: newsItem.id.toString(),
+    }));
+
+    allPaths.push(...paths);
+  }
+
+  return allPaths;
+}
+
+export const revalidate = 86400;
 
 export default async function NewsDetailPage({
   params: paramsPromise,
@@ -15,7 +33,6 @@ export default async function NewsDetailPage({
 }) {
   const { locale, id } = await paramsPromise;
   const news: News = await getNewsItem(parseInt(id), locale);
-
   if (news.id === -1) {
     return (
       <EmptyState
@@ -25,7 +42,6 @@ export default async function NewsDetailPage({
       />
     );
   }
-
   return (
     <Suspense fallback={<Loading />}>
       <Card>
