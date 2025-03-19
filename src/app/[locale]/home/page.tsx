@@ -33,43 +33,47 @@ export default async function HomePage({
   const sections: HomeSection[] = await getHomeSections(locale);
 
   return (
-    <Container>
+    <>
       <HeroSection locale={locale} />
-      <Grid variant="home">
-        {sections.map((section) => {
-          if (!section.is_active) return null;
+      <Container>
+        <Grid variant="home">
+          {sections.map((section) => {
+            if (!section.is_active) return null;
 
-          const layoutClass =
-            section.layout === "full" ? "md:col-span-2" : "md:col-span-1";
+            const layoutClass =
+              section.layout === "full" ? "md:col-span-2" : "md:col-span-1";
 
-          return (
-            <Card
-              key={section.id}
-              className={`col-span-1 ${layoutClass} overflow-hidden`}
-            >
-              <CardContent className="h-[300px] sm:h-[350px] md:h-[400px] p-4 sm:p-8">
-                <ScrollArea className="h-full w-full">
-                  <Suspense fallback={<HomePageSkeleton />}>
-                    {section.type === "books" && (
-                      <BooksSection locale={locale} />
-                    )}
-                    {section.type === "authors" && (
-                      <AuthorsSection locale={locale} />
-                    )}
-                    {section.type === "news" && <NewsSection locale={locale} />}
-                    {section.type === "events" && (
-                      <EventsSection locale={locale} />
-                    )}
-                    {section.type === "custom" && (
-                      <CustomSection content={section.content || ""} />
-                    )}
-                  </Suspense>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </Grid>
-    </Container>
+            return (
+              <Card
+                key={section.id}
+                className={`col-span-1 ${layoutClass} overflow-hidden`}
+              >
+                <CardContent className="h-[300px] sm:h-[350px] md:h-[400px] p-4 sm:p-8">
+                  <ScrollArea className="h-full w-full">
+                    <Suspense fallback={<HomePageSkeleton />}>
+                      {section.type === "books" && (
+                        <BooksSection locale={locale} />
+                      )}
+                      {section.type === "authors" && (
+                        <AuthorsSection locale={locale} />
+                      )}
+                      {section.type === "news" && (
+                        <NewsSection locale={locale} />
+                      )}
+                      {section.type === "events" && (
+                        <EventsSection locale={locale} />
+                      )}
+                      {section.type === "custom" && (
+                        <CustomSection content={section.content || ""} />
+                      )}
+                    </Suspense>
+                  </ScrollArea>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </Grid>
+      </Container>
+    </>
   );
 }
