@@ -8,6 +8,7 @@ services:
       - .env.production
     volumes:
       - next-cache:/app/.next/cache
+      - next-temp:/app/tmp
     networks:
       - caddy
     security_opt:
@@ -28,10 +29,14 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
-      interval: 60s 
+      interval: 120s 
       timeout: 3s    
       retries: 2     
       start_period: 30s  
+
+volumes:
+  next-cache:
+  next-temp:
 
 networks:
   caddy:
