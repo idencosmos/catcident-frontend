@@ -71,9 +71,10 @@ const nextConfig: NextConfig = {
     process.env.NEXT_OUTPUT_STANDALONE === "true" ? "standalone" : undefined,
   poweredByHeader: false,
 
+  serverExternalPackages: ["sharp"],
+
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-*"],
-    serverComponentsExternalPackages: ["sharp"],
     optimizeCss: true,
     serverActions: {
       bodySizeLimit: "2mb",

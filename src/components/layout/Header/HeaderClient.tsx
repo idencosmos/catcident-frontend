@@ -16,7 +16,7 @@ export default function HeaderClient({
 
   return (
     <header
-      className="sticky top-0 z-50 border-b bg-background/50 backdrop-blur-md"
+      className="sticky top-0 z-50 border-b bg-background backdrop-blur-md"
       style={{
         height: `${headerHeight}px`,
         transform: `translateY(${headerOffset}px)`,
