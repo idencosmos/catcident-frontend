@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+      args:
+        - NEXT_PUBLIC_API_URL=http://catcident-backend-api-1:8000
     command: pnpm dev
     env_file:
       - .env
@@ -11,10 +13,14 @@ services:
       - .:/app
       - /app/node_modules
       - next-cache:/app/.next/cache
+    tmpfs:
+      - /app/tmp:exec,uid=1001,gid=1001,mode=1777,size=256m
     networks:
       - caddy
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     deploy:
       resources:
         limits:
@@ -29,7 +35,7 @@ services:
         max-size: "10m"
         max-file: "3"
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 3s
       retries: 2
@@ -38,6 +44,7 @@ services:
 
 volumes:
   next-cache:
+    name: ${COMPOSE_PROJECT_NAME:-nextjs}_next-cache
 
 networks:
   caddy:
