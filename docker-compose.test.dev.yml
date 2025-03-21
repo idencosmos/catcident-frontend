@@ -1,0 +1,52 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.test.dev
+      args:
+        - NEXT_PUBLIC_API_URL=http://catcident-backend-api-1:8000
+    env_file:
+      - .env
+      - .env.test.dev
+    volumes:
+      - next-cache:/app/.next/cache
+      - next-server:/app/.next/server
+    tmpfs:
+      - /app/tmp:exec,uid=1001,gid=1001,mode=1777,size=256m
+    networks:
+      - caddy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 768M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  next-cache:
+    name: ${COMPOSE_PROJECT_NAME:-nextjs}_next-cache
+  next-server:
+    name: ${COMPOSE_PROJECT_NAME:-nextjs}_next-server
+
+networks:
+  caddy:
+    external: true
