@@ -20,7 +20,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         ko: [
-          "var(--font-noto-sans-kr)", 
+          "var(--font-pretendard)", 
           "system-ui", 
           "sans-serif"
         ],
