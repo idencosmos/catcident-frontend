@@ -9,8 +9,8 @@ interface HeroSectionProps {
 export default async function HeroSection({ locale }: HeroSectionProps) {
   const slides: HeroSlide[] = await getHeroSlides(locale);
   return (
-      <div className="w-full">
-        <HeroSectionClient slides={slides} />
-      </div>
+    <>
+      <HeroSectionClient slides={slides} />
+    </>
   );
 }

@@ -83,20 +83,22 @@ export function HeroSectionClient({ slides }: HeroSectionClientProps) {
         setApi={setApi}
         className="w-full"
       >
-        <CarouselContent className="ml-0">
+        <CarouselContent>
           {validSlides.map((slide) => (
             <CarouselItem
               key={slide.id}
-              className="relative w-full aspect-[2/1]"
+              className="relative w-full overflow-hidden"
             >
-              <Image
-                src={slide.image.file}
-                alt={slide.title}
-                fill
-                sizes="100vw"
-                style={{ objectFit: "cover" }}
-                priority
-              />
+              <div className="hero-container">
+                <Image
+                  src={slide.image.file}
+                  alt={slide.title}
+                  fill
+                  sizes="(max-width: 1200px) 100vw, 2000px"
+                  className="hero-image"
+                  priority
+                />
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>

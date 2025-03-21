@@ -65,3 +65,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ===== 히어로 섹션 스타일 ===== */
+.hero-container {
+  position: relative;
+  height: 600px;
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.hero-image {
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 1200px) {
+  .hero-container {
+    height: 0;
+    padding-bottom: 50%; /* 2:1 비율 (600/1200 = 0.5 = 50%) */
+  }
+}
