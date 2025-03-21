@@ -13,9 +13,9 @@ const Container: React.FC<ContainerProps> = ({
   variant = "default",
 }) => {
   const variantClasses = {
-    default: "p-4 sm:p-6 md:p-8",
-    horizontal: "px-4 sm:px-6 md:px-8",
-    narrow: "px-4 sm:px-6 md:px-8 max-w-4xl mx-auto",
+    default: "container p-4 sm:p-6 md:p-8",
+    horizontal: "container px-4 sm:px-6 md:px-8",
+    narrow: "container px-4 sm:px-6 md:px-8 max-w-4xl mx-auto",
   };
 
   return (
