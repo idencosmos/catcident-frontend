@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header/Header";
 import Footer from "@/components/layout/Footer/Footer";
 import { getSiteTitle, getNavigationGroups } from "@/lib/api/navigation";
 import { NavGroup, SiteTitle } from "@/lib/api/_types/navigation";
+import { cn } from "@/lib/utils";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -27,11 +28,19 @@ export default async function LocaleLayout({
 
   const siteTitle = siteTitleData.title || "고양이의 만행";
 
+  const fontClass = locale === "ko" ? "font-ko" : "font-en";
+
   return (
     <NextIntlClientProvider>
-      <Header locale={locale} siteTitle={siteTitle} navGroups={navGroupsData} />
-      <main className="flex-grow">{children}</main>
-      <Footer locale={locale} />
+      <div className={cn("flex flex-col min-h-screen", fontClass)}>
+        <Header
+          locale={locale}
+          siteTitle={siteTitle}
+          navGroups={navGroupsData}
+        />
+        <main className="flex-grow">{children}</main>
+        <Footer locale={locale} />
+      </div>
     </NextIntlClientProvider>
   );
 }

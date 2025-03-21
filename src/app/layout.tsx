@@ -1,10 +1,26 @@
 import "@/styles/globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { combinedFonts } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "Catcident",
+  title: {
+    template: "%s | Catcident",
+    default: "Catcident",
+  },
   description: "Welcome to Catcident.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export default function RootLayout({
@@ -13,9 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* 테마 초기화 스크립트 - 플래시 방지 */}
+    <html suppressHydrationWarning className={`${combinedFonts}`}>
+      <body className="bg-background text-foreground antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -38,12 +56,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <body className="flex flex-col min-h-screen bg-background text-foreground">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
       </body>
     </html>
   );

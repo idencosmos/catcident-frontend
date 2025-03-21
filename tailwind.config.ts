@@ -13,15 +13,22 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
       screens: {
         "2xl": "1400px",
       },
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)"],
-        mono: ["var(--font-geist-mono)"],
+        ko: [
+          "var(--font-noto-sans-kr)", 
+          "system-ui", 
+          "sans-serif"
+        ],
+        en: [
+          "var(--font-inter)", 
+          "system-ui", 
+          "sans-serif"
+        ],
       },
       colors: {
         border: "hsl(var(--border))",
