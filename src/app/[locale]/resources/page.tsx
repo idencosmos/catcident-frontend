@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-
 import Image from "next/image";
+import { stripHtml } from "string-strip-html";
 
 import { Link } from "@/i18n/routing";
 import { Resource } from "@/lib/api/_types/resource";
@@ -58,7 +58,7 @@ export default async function ResourcesPage({
                 />
               )}
               <p className="text-sm line-clamp-2">
-                {resource.description.replace(/<[^>]+>/g, "")}
+                {resource.description ? stripHtml(resource.description).result : "No description available."}
               </p>
               {resource.file ? (
                 <Link href={resource.file.file} target="_blank">

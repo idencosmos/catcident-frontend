@@ -1,8 +1,9 @@
 // src/app/[locale]/home/_sections/NewsSection.tsx
+import Link from 'next/link';
+import { stripHtml } from "string-strip-html";
+import { News } from '@/lib/api/_types/news';
 import { getLatestNews } from '@/lib/api/home';
 import { CardHeader, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
-import { News } from '@/lib/api/_types/news';
 
 interface NewsSectionProps {
   locale: string;
@@ -26,7 +27,7 @@ export default async function NewsSection({ locale }: NewsSectionProps) {
                   {new Date(item.date).toLocaleDateString(locale)}
                 </p>
                 <p className="text-sm text-foreground line-clamp-2">
-                  {item.content.replace(/<[^>]+>/g, '')}
+                  {item.content ? stripHtml(item.content).result : "No content available."}
                 </p>
               </div>
             </Link>

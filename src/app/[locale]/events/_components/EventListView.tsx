@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FC } from "react";
+import { stripHtml } from "string-strip-html";
 import { type Event } from "@/lib/api/_types/event";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/common/empty-state";
@@ -12,7 +13,11 @@ interface EventListViewProps {
   category?: string;
 }
 
-export const EventListView: FC<EventListViewProps> = ({ events, locale, category }) => {
+export const EventListView: FC<EventListViewProps> = ({
+  events,
+  locale,
+  category,
+}) => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -61,14 +66,14 @@ export const EventListView: FC<EventListViewProps> = ({ events, locale, category
               </p>
             </CardHeader>
             <CardContent className="p-0 pt-2">
-              <p className="text-sm text-foreground line-clamp-2">
-                {event.description?.replace(/<[^>]+>/g, "")}
+              <p className="text-sm line-clamp-2">
+                {event.description ? stripHtml(event.description).result : "No description available."}
               </p>
             </CardContent>
           </Card>
         ))}
       </div>
-      
+
       <EventDetailPanel
         event={selectedEvent}
         isOpen={isPanelOpen}

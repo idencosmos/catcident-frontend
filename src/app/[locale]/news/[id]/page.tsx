@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
+import DOMPurify from "isomorphic-dompurify";
 import { News } from "@/lib/api/_types/news";
 import { getNewsItem, getNews } from "@/lib/api/news";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -62,8 +63,8 @@ export default async function NewsDetailPage({
             />
           )}
           <div
-            className="prose text-foreground"
-            dangerouslySetInnerHTML={{ __html: news.content || "" }}
+            className="prose prose-sm sm:prose lg:prose-lg dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(news.content || "") }}
           />
         </CardContent>
       </Card>

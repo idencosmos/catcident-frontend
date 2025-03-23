@@ -1,8 +1,9 @@
 // src/app/[locale]/home/_sections/EventsSection.tsx
+import Link from 'next/link';
+import { stripHtml } from "string-strip-html";
+import { Event } from '@/lib/api/_types/event';
 import { getLatestEvents } from '@/lib/api/home';
 import { CardHeader, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
-import { Event } from '@/lib/api/_types/event';
 
 interface EventsSectionProps {
   locale: string;
@@ -26,7 +27,7 @@ export default async function EventsSection({ locale }: EventsSectionProps) {
                   {new Date(event.date).toLocaleDateString(locale)}
                 </p>
                 <p className="text-sm text-foreground line-clamp-2">
-                  {event.description.replace(/<[^>]+>/g, '')}
+                  {event.description ? stripHtml(event.description).result : "No description available."}
                 </p>
               </div>
             </Link>
