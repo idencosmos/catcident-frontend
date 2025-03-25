@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { setRequestLocale } from "next-intl/server";
 import { getCreators } from "@/lib/api/about";
 import { Creator } from "@/lib/api/_types/about/creator";
 import { SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
@@ -16,7 +15,6 @@ export default async function CreatorLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await paramsPromise;
-  setRequestLocale(locale);
 
   const creators: Creator[] = await getCreators(locale);
 
