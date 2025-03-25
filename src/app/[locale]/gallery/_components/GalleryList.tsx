@@ -58,14 +58,14 @@ export function GalleryList({
             </CardHeader>
 
             {/* 이미지 컨테이너: 패딩과 비율 설정이 포함된 단일 div */}
-            <div className="px-6 pb-2 pt-0 flex-1 relative w-full sm:aspect-[4/3] overflow-hidden flex items-center justify-center">
+            <div className="px-6 pb-2 pt-0 flex-1 relative w-full overflow-hidden flex items-center justify-center">
               {item.image && (
                 <Image
                   src={item.image.file}
                   alt={item.title}
                   width={600}
                   height={450}
-                  className="object-contain w-full h-full"
+                  className="object-contain w-full h-full sm:aspect-[4/3] max-h-[300px]"
                 />
               )}
             </div>
