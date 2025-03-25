@@ -1,3 +1,6 @@
+// 서브 내비게이션 바 컴포넌트
+// 카테고리 필터링 및 전체보기 기능을 제공합니다.
+
 "use client";
 
 import {
@@ -6,8 +9,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Link } from "@/i18n/routing";
-import { usePathname } from "@/i18n/routing";
+import { Link, usePathname } from "@/i18n/routing";
+import { useSearchParams } from "next/navigation";
 import { SubNavItem } from "./SubNavBarItem";
 import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
 import { cn } from "@/lib/utils";
@@ -20,9 +23,60 @@ interface SubNavBarProps {
 
 export default function SubNavBar({ items }: SubNavBarProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPath =
+    pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
+
+  // 현재 카테고리 파라미터 추출
+  const currentCategory = searchParams.get("category");
+
   const headerHeight = 64;
   const subNavHeight = 48;
   const { subNavOffset } = useHeaderScrollBehavior(headerHeight);
+
+  // 현재 활성화된 항목 판단 함수
+  const isActive = (itemHref: string) => {
+    // 정확히 일치하는 경우
+    if (currentPath === itemHref) {
+      return true;
+    }
+
+    // 쿼리 파라미터 형식인 경우 (예: /news?category=slug1)
+    if (itemHref.includes("?category=")) {
+      const categoryMatch = itemHref.match(/category=([^&]+)/);
+      const itemCategory = categoryMatch ? categoryMatch[1] : null;
+      return currentCategory === itemCategory;
+    }
+
+    // 전체보기 메뉴의 경우
+    if (!itemHref.includes("?")) {
+      // 1. 현재 페이지에 category 쿼리 파라미터가 있는 경우, 전체보기는 활성화되지 않음
+      if (currentCategory) {
+        return false;
+      }
+
+      // 2. 경로가 완전히 일치하는 경우 (파라미터 없는 기본 페이지)
+      if (pathname === itemHref) {
+        return true;
+      }
+
+      // 3. 하위 페이지인 경우 (예: /gallery/1)
+      if (pathname.startsWith(itemHref)) {
+        const pathParts = pathname.split("/");
+        const hrefParts = itemHref.split("/");
+
+        // 기본 경로가 같고, 상세 페이지인 경우에만 활성화
+        if (
+          pathParts.length > hrefParts.length &&
+          pathParts.slice(0, hrefParts.length).join("/") === itemHref
+        ) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
 
   return (
     <>
@@ -44,9 +98,9 @@ export default function SubNavBar({ items }: SubNavBarProps) {
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors",
-                        pathname === item.href
-                          ? "bg-accent text-accent-foreground"
+                        "inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md",
+                        isActive(item.href)
+                          ? "text-accent-foreground"
                           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                       )}
                     >
