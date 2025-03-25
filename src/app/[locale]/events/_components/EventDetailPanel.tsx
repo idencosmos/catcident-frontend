@@ -14,17 +14,20 @@ interface EventDetailPanelProps {
   locale: string;
 }
 
-export const EventDetailPanel: FC<EventDetailPanelProps> = ({ 
-  event, 
-  isOpen, 
-  onClose, 
-  locale 
+export const EventDetailPanel: FC<EventDetailPanelProps> = ({
+  event,
+  isOpen,
+  onClose,
+  locale,
 }) => {
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === "Escape" && isOpen) {
-      onClose();
-    }
-  }, [isOpen, onClose]);
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    },
+    [isOpen, onClose]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -51,9 +54,9 @@ export const EventDetailPanel: FC<EventDetailPanelProps> = ({
           <h2 id="event-detail-title" className="text-xl font-semibold">
             이벤트 상세
           </h2>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onClose}
             aria-label="닫기"
           >
@@ -81,13 +84,10 @@ export const EventDetailPanel: FC<EventDetailPanelProps> = ({
             )}
             <div
               className="prose text-foreground max-w-none"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(event.description || "") }}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(event.description || ""),
+              }}
             />
-            {event.main_image && (
-              <p className="text-sm text-muted-foreground">
-                이미지 업로드: {new Date(event.main_image.uploaded_at).toLocaleString(locale)}
-              </p>
-            )}
           </CardContent>
         </Card>
       </div>

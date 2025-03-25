@@ -2,9 +2,7 @@
 export interface Media {
   id: number;
   file: string;
-  uploaded_at: string;
   title: string;
-  is_used_cached: boolean;
 }
 
 export interface FetchOptions {
