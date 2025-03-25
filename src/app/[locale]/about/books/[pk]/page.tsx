@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Suspense } from "react";
+import DOMPurify from "isomorphic-dompurify";
 import Loading from "../loading";
 
 // 정적 경로 생성 추가
@@ -64,7 +65,7 @@ export default async function BookDetailPage({
           <p className="text-sm">Authors: {book.authors.join(", ")}</p>
           <div
             className="prose text-foreground"
-            dangerouslySetInnerHTML={{ __html: book.description }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(book.description) }}
           />
         </CardContent>
       </Card>

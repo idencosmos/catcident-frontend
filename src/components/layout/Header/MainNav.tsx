@@ -147,7 +147,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                   {group.group_label}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="min-w-[200px] my-2 space-y-4 p-2 bg-background/95 backdrop-blur-sm">
+                  <ul className="min-w-[200px] space-y-4 p-2 py-4 bg-background/95 backdrop-blur-sm">
                     {group.sub_menus.map((sub) => (
                       <li key={sub.id}>
                         <NavigationMenuLink asChild>

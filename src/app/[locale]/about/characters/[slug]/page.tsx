@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getCharacter, getCharacters } from "@/lib/api/about";
 import { Character } from "@/lib/api/_types/about/character";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import DOMPurify from "isomorphic-dompurify";
 import Loading from "../loading";
 import { routing } from "@/i18n/routing";
 
@@ -54,7 +55,7 @@ export default async function CharacterDetailPage({
           )}
           <div
             className="prose text-foreground"
-            dangerouslySetInnerHTML={{ __html: character.description }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(character.description) }}
           />
           <p className="text-sm">
             Appears in:{" "}

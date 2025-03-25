@@ -30,7 +30,7 @@ export default async function CreatorLayout({
   }
 
   const navItems: SubNavItem[] = creators.map((creator) => ({
-    href: `/about/creator/${creator.slug}`,
+    href: `/about/creators/${creator.slug}`,
     label: creator.name,
     value: creator.slug,
   }));

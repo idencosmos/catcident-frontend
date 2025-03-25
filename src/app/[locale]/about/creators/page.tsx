@@ -15,5 +15,5 @@ export default async function CreatorRedirectPage({
     return <EmptyState message="크리에이터 정보가 없습니다." showRefresh />;
   }
 
-  redirect(`/about/creator/${creators[0].slug}`);
+  redirect(`/about/creators/${creators[0].slug}`);
 }

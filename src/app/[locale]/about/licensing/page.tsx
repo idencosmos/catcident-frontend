@@ -3,6 +3,7 @@ import { getLicensePage } from "@/lib/api/about";
 import { LicensePage } from "@/lib/api/_types/about/license";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/common/empty-state";
+import DOMPurify from "isomorphic-dompurify";
 import Loading from "./loading";
 
 export default async function LicensingPage({
@@ -35,7 +36,7 @@ export default async function LicensingPage({
         <CardContent>
           <div
             className="prose text-foreground"
-            dangerouslySetInnerHTML={{ __html: license.content }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(license.content) }}
           />
         </CardContent>
       </Card>

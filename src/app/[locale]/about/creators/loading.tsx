@@ -1,4 +1,4 @@
-// src/app/[locale]/about/creator/loading.tsx
+// src/app/[locale]/about/creators/loading.tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {

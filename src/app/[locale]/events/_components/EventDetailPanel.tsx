@@ -1,11 +1,11 @@
 "use client";
-
 import { type FC, useEffect, useCallback } from "react";
 import { type Event } from "@/lib/api/_types/event";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
 
 interface EventDetailPanelProps {
   event: Event | null;
@@ -81,7 +81,7 @@ export const EventDetailPanel: FC<EventDetailPanelProps> = ({
             )}
             <div
               className="prose text-foreground max-w-none"
-              dangerouslySetInnerHTML={{ __html: event.description || "" }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(event.description || "") }}
             />
             {event.main_image && (
               <p className="text-sm text-muted-foreground">
