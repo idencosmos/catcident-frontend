@@ -2,12 +2,7 @@
 // 갤러리 페이지 로딩 상태를 표시합니다.
 // 데이터 로딩 중 사용자에게 스켈레톤 UI를 제공합니다.
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Grid from "@/components/common/Grid";
 import Container from "@/components/common/Container";
