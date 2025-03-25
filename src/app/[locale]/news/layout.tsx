@@ -53,7 +53,9 @@ export default async function NewsLayout({
 
   return (
     <>
-      <SubNavBar items={navItems} defaultValue="all" />
+      <Suspense>
+        <SubNavBar items={navItems} defaultValue="all" />
+      </Suspense>
       <Container className="space-y-4 sm:space-y-6 md:space-y-8">
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </Container>

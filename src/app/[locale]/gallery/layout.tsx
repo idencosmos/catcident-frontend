@@ -53,7 +53,9 @@ export default async function GalleryLayout({
 
   return (
     <>
-      <SubNavBar items={navItems} defaultValue="all" />
+      <Suspense>
+        <SubNavBar items={navItems} defaultValue="all" />
+      </Suspense>
       <Container>
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </Container>

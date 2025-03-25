@@ -35,7 +35,9 @@ export default async function CreatorLayout({
 
   return (
     <>
-      <SubNavBar items={navItems} defaultValue={creators[0].slug} />
+      <Suspense>
+        <SubNavBar items={navItems} defaultValue={creators[0].slug} />
+      </Suspense>
       <Container>
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </Container>
