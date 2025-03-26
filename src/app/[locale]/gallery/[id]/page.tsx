@@ -14,12 +14,10 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import DOMPurify from "isomorphic-dompurify";
-import { Link } from "@/i18n/routing";
 import Loading from "./loading";
 import { routing } from "@/i18n/routing";
+import { NavigationButton } from "../_components/NavigationButton";
 
 export async function generateStaticParams() {
   const allPaths = [];
@@ -45,18 +43,12 @@ interface PageProps {
     locale: string;
     id: string;
   }>;
-  searchParams: Promise<{
-    category?: string;
-    from?: string;
-  }>;
 }
 
 export default async function GalleryDetailPage({
   params: paramsPromise,
-  searchParams: searchParamsPromise,
 }: PageProps) {
   const { locale, id } = await paramsPromise;
-  const searchParams = await searchParamsPromise;
 
   const galleryItem = await getGalleryItemDetail(parseInt(id), locale);
 
@@ -64,19 +56,8 @@ export default async function GalleryDetailPage({
     notFound();
   }
 
-  // 이전 페이지 네비게이션 정보 계산
-  const { previousPath, buttonText } = getPreviousNavigation(
-    searchParams,
-    locale
-  );
-
   // 현지화된 텍스트
   const t = {
-    viewAllGalleries:
-      locale === "ko" ? "모든 갤러리 보기" : "View all galleries",
-    backToCategory:
-      locale === "ko" ? "카테고리로 돌아가기" : "Back to category",
-    backToPrevious: locale === "ko" ? "이전 페이지로" : "Back to previous page",
     featured: locale === "ko" ? "주요 작품" : "Featured",
     noYear: locale === "ko" ? "연도 미상" : "Unknown Year",
     galleryID: locale === "ko" ? "갤러리 ID" : "Gallery ID",
@@ -153,65 +134,8 @@ export default async function GalleryDetailPage({
         </CardFooter>
       </Card>
 
-      <div className="mt-4 flex justify-end">
-        <Link href={previousPath}>
-          <Button variant="ghost" size="sm" className="gap-1">
-            <ArrowLeft className="h-4 w-4" />
-            <span>{buttonText}</span>
-          </Button>
-        </Link>
-      </div>
+      {/* 클라이언트 컴포넌트로 네비게이션 로직 분리 */}
+      <NavigationButton locale={locale} />
     </Suspense>
   );
-}
-
-/**
- * 이전 페이지 네비게이션 정보를 계산하는 함수
- * 직접 접근, 카테고리 접근, 다른 페이지 접근 등의 경우를 처리합니다
- */
-function getPreviousNavigation(
-  searchParams: {
-    category?: string;
-    from?: string;
-  },
-  locale: string
-): { previousPath: string; buttonText: string } {
-  const t = {
-    viewAllGalleries:
-      locale === "ko" ? "모든 갤러리 보기" : "View all galleries",
-    backToCategory:
-      locale === "ko" ? "카테고리로 돌아가기" : "Back to category",
-    backToPrevious: locale === "ko" ? "이전 페이지로" : "Back to previous page",
-  };
-
-  // 카테고리 파라미터가 있는 경우 (카테고리 페이지에서 접근한 경우)
-  if (searchParams.category) {
-    return {
-      previousPath: `/gallery?category=${searchParams.category}`,
-      buttonText: t.backToCategory,
-    };
-  }
-
-  // from 파라미터가 있는 경우 (이전 경로가 명시적으로 지정된 경우)
-  if (searchParams.from) {
-    // from 파라미터가 gallery로 시작하면 갤러리 관련 페이지에서 온 것으로 판단
-    if (searchParams.from.startsWith("/gallery")) {
-      return {
-        previousPath: searchParams.from,
-        buttonText: t.viewAllGalleries,
-      };
-    }
-
-    // 다른 페이지에서 온 경우
-    return {
-      previousPath: searchParams.from,
-      buttonText: t.backToPrevious,
-    };
-  }
-
-  // 기본적으로는 갤러리 목록 페이지로 이동 (직접 링크로 접근한 경우)
-  return {
-    previousPath: "/gallery",
-    buttonText: t.viewAllGalleries,
-  };
 }
