@@ -81,7 +81,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
   return (
     <>
       <div
-        className="sticky z-40 border-b bg-background/50 backdrop-blur-md"
+        className="fixed z-40 w-full border-b bg-background/50 backdrop-blur-md"
         style={{
           top: `${headerHeight}px`,
           height: `${subNavHeight}px`,
@@ -113,6 +113,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
           </NavigationMenu>
         </Container>
       </div>
+      <div style={{ paddingTop: `${subNavHeight}px` }}></div>
     </>
   );
 }
