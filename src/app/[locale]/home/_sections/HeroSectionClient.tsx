@@ -94,7 +94,7 @@ export function HeroSectionClient({ slides }: HeroSectionClientProps) {
                   src={slide.image.file}
                   alt={slide.title}
                   fill
-                  sizes="(max-width: 1200px) 100vw, 2000px"
+                  sizes="(max-width: 1200px) 167vw, 2000px"
                   className="hero-image"
                   priority
                 />
