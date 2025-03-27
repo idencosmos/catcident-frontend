@@ -15,15 +15,19 @@ export default function HeaderClient({
   const { headerOffset } = useHeaderScrollBehavior(headerHeight);
 
   return (
-    <header
-      className="sticky top-0 z-50 border-b bg-background backdrop-blur-md"
-      style={{
-        height: `${headerHeight}px`,
-        transform: `translateY(${headerOffset}px)`,
-        transition: "transform 0.2s ease-in-out",
-      }}
-    >
-      {children}
-    </header>
+    <>
+      <header
+        className="fixed top-0 z-50 w-full border-b bg-background backdrop-blur-md"
+        style={{
+          height: `${headerHeight}px`,
+          transform: `translateY(${headerOffset}px)`,
+          transition: "transform 0.2s ease-in-out",
+        }}
+      >
+        {children}
+      </header>
+      {/* 헤더 높이만큼 여백 추가로 콘텐츠 겹침 방지 */}
+      <div style={{ paddingTop: `${headerHeight}px` }} />
+    </>
   );
 }

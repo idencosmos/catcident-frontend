@@ -1,5 +1,5 @@
-// 서브 내비게이션 바 컴포넌트
-// 카테고리 필터링 및 전체보기 기능을 제공합니다.
+// src/components/layout/SubNavBar/SubNavBar.tsx
+// 서브 내비게이션 바 컴포넌트 - 카테고리 필터링 및 네비게이션 제공
 
 "use client";
 
@@ -113,7 +113,8 @@ export default function SubNavBar({ items }: SubNavBarProps) {
           </NavigationMenu>
         </Container>
       </div>
-      <div style={{ paddingTop: `${subNavHeight}px` }}></div>
+      {/* 여백 추가로 콘텐츠 겹침 방지 */}
+      <div style={{ paddingTop: `${subNavHeight}px` }} />
     </>
   );
 }
