@@ -1,5 +1,6 @@
 // src/app/[locale]/gallery/layout.tsx
-// 갤러리 관련 페이지들의 공통 레이아웃을 제공하는 컴포넌트입니다
+// 갤러리 관련 페이지(리스트, 상세)의 공통 레이아웃입니다.
+// SubNavBar를 렌더링하고 카테고리 데이터를 처리합니다.
 
 import { Suspense } from "react";
 import { getGalleryCategories } from "@/lib/api/gallery";
@@ -18,9 +19,10 @@ export default async function GalleryLayout({
 }) {
   const { locale } = await paramsPromise;
 
+  // 갤러리 카테고리 데이터 가져오기
   const categories = await getGalleryCategories(locale);
 
-  // 현지화된 텍스트
+  // 현지화된 텍스트 정의
   const t = {
     noCategoriesMessage:
       locale === "ko"
@@ -29,18 +31,19 @@ export default async function GalleryLayout({
     viewAll: locale === "ko" ? "전체보기" : "View All",
   };
 
-  // 카테고리가 존재하지 않으면 처리
+  // 카테고리 데이터가 없을 경우 EmptyState 표시
   if (categories.length === 0) {
     return <EmptyState message={t.noCategoriesMessage} showRefresh />;
   }
 
-  // 전체보기 옵션 추가
+  // SubNavBar 아이템 목록 생성: '전체보기' 항목 추가
   const allViewItem: SubNavItem = {
     href: "/gallery",
     label: t.viewAll,
     value: "all",
   };
 
+  // SubNavBar 아이템 목록 생성: API에서 가져온 카테고리 목록 추가
   const navItems: SubNavItem[] = [
     allViewItem,
     ...categories.map((cat) => ({
@@ -52,9 +55,11 @@ export default async function GalleryLayout({
 
   return (
     <>
+      {/* SubNavBar 렌더링 (Suspense 적용) */}
       <Suspense>
         <SubNavBar items={navItems} defaultValue="all" />
       </Suspense>
+      {/* 메인 콘텐츠 영역 (Suspense 및 로딩 폴백 적용) */}
       <Container>
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </Container>

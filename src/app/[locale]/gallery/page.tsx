@@ -1,6 +1,6 @@
 // src/app/[locale]/gallery/page.tsx
 // 갤러리 리스트 페이지를 렌더링합니다.
-// 카테고리 필터링과 다국어 지원을 제공합니다.
+// 카테고리 필터링 및 Suspense를 이용한 로딩 상태 처리를 지원합니다.
 
 import { Suspense } from "react";
 import { getGalleryItems } from "@/lib/api/gallery";
@@ -17,14 +17,16 @@ export default async function GalleryPage({
   params: paramsPromise,
   searchParams: searchParamsPromise,
 }: PageProps) {
+  // 비동기 파라미터 처리
   const [{ locale }, { category }] = await Promise.all([
     paramsPromise,
     searchParamsPromise,
   ]);
 
+  // 갤러리 아이템 데이터 가져오기
   const items = await getGalleryItems(locale);
 
-  // 현지화된 텍스트
+  // 현지화된 텍스트 정의
   const t = {
     noItemsMessage:
       locale === "ko"
@@ -34,11 +36,12 @@ export default async function GalleryPage({
       locale === "ko" ? "다른 카테고리 보기" : "View other categories",
   };
 
+  // 카테고리 파라미터에 따라 아이템 필터링
   const filteredItems = category
     ? items.filter((item) => item.category?.slug === category)
     : items;
 
-  // 필터링된 아이템이 없으면 처리
+  // 필터링된 아이템이 없을 경우 EmptyState 컴포넌트 표시
   if (filteredItems.length === 0) {
     return (
       <EmptyState
@@ -49,6 +52,7 @@ export default async function GalleryPage({
     );
   }
 
+  // 갤러리 리스트 렌더링 (Suspense 적용)
   return (
     <Suspense fallback={<Loading />}>
       <GalleryList

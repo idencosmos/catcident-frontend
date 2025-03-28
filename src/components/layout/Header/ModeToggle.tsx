@@ -20,10 +20,9 @@ export default function ModeToggle() {
     return (
       <Button
         variant="outline"
-        size="icon"
         aria-label="테마 전환"
         disabled
-        className="opacity-0"
+        className={cn("opacity-0 h-8 w-8")}
       >
         <Sun className="h-4 w-4" />
       </Button>
@@ -33,10 +32,9 @@ export default function ModeToggle() {
   return (
     <Button
       variant="outline"
-      size="icon"
       onClick={toggleTheme}
       aria-label={`${resolvedTheme === "dark" ? "라이트" : "다크"} 모드로 전환`}
-      className={cn("transition-colors duration-200")}
+      className={cn("transition-colors duration-200 h-8 w-8")}
     >
       {resolvedTheme === "dark" ? (
         <Sun className="h-4 w-4 transition-transform duration-200" />

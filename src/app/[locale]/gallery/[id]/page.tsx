@@ -1,4 +1,4 @@
-// filepath: src/app/[locale]/gallery/[id]/page.tsx
+// src/app/[locale]/gallery/[id]/page.tsx
 // 갤러리 상세 페이지를 렌더링합니다.
 // 선택한 갤러리 아이템의 이미지와 상세 정보를 표시하고 이전 페이지로 돌아가는 기능을 제공합니다.
 
@@ -19,6 +19,7 @@ import Loading from "./loading";
 import { routing } from "@/i18n/routing";
 import { NavigationButton } from "../_components/NavigationButton";
 
+// 빌드 시 정적 경로 생성: 모든 로케일과 갤러리 아이템 ID 조합
 export async function generateStaticParams() {
   const allPaths = [];
 
@@ -36,6 +37,7 @@ export async function generateStaticParams() {
   return allPaths;
 }
 
+// 페이지 재검증 주기 설정 (초 단위, 예: 24시간)
 export const revalidate = 86400;
 
 interface PageProps {
@@ -50,8 +52,10 @@ export default async function GalleryDetailPage({
 }: PageProps) {
   const { locale, id } = await paramsPromise;
 
+  // 갤러리 아이템 상세 정보 가져오기
   const galleryItem = await getGalleryItemDetail(parseInt(id), locale);
 
+  // 아이템을 찾을 수 없으면 404 페이지 표시
   if (galleryItem.id === -1) {
     notFound();
   }
@@ -98,6 +102,7 @@ export default async function GalleryDetailPage({
         </CardHeader>
 
         <CardContent className="space-y-8">
+          {/* 갤러리 이미지 표시 */}
           {galleryItem.image && (
             <div className="relative w-full h-full flex justify-center">
               <Image
@@ -112,12 +117,14 @@ export default async function GalleryDetailPage({
           )}
 
           <div className="space-y-6">
+            {/* 짧은 설명 표시 */}
             <div className="px-1 py-3 border-l-4 border-primary/20 pl-4">
               <p className="text-lg font-medium leading-relaxed text-foreground/90">
                 {galleryItem.short_description}
               </p>
             </div>
 
+            {/* 상세 설명 (HTML) 표시 - DOMPurify로 XSS 방지 */}
             <div
               className="prose prose-sm md:prose-base max-w-none text-foreground/80 prose-headings:text-foreground prose-a:text-primary hover:prose-a:text-primary/90 prose-img:rounded-md"
               dangerouslySetInnerHTML={{
@@ -134,7 +141,7 @@ export default async function GalleryDetailPage({
         </CardFooter>
       </Card>
 
-      {/* 클라이언트 컴포넌트로 네비게이션 로직 분리 */}
+      {/* 뒤로가기 버튼 (클라이언트 컴포넌트) */}
       <NavigationButton locale={locale} />
     </Suspense>
   );

@@ -14,7 +14,6 @@ import { useSearchParams } from "next/navigation";
 import { SubNavItem } from "./SubNavBarItem";
 import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
 import { cn } from "@/lib/utils";
-import Container from "@/components/common/Container";
 import { HEADER_HEIGHT, SUB_NAV_HEIGHT } from "@/constants/layout";
 
 interface SubNavBarProps {
@@ -25,54 +24,45 @@ interface SubNavBarProps {
 export default function SubNavBar({ items }: SubNavBarProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentPath =
-    pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
+  const currentCategory = searchParams.get("category"); // 현재 URL의 카테고리 파라미터
 
-  const currentCategory = searchParams.get("category");
+  const { headerTranslateY, isTransitionEnabled } = useHeaderScrollBehavior();
 
-  const { subNavTranslateY, isTransitionEnabled } = useHeaderScrollBehavior();
+  /**
+   * 현재 경로와 아이템 href를 비교하여 네비게이션 아이템의 활성화 여부를 판단합니다.
+   * - 특정 카테고리 아이템: 현재 URL의 category 파라미터와 아이템의 category가 일치하는지 확인합니다.
+   * - 전체보기 아이템: 현재 URL에 category 파라미터가 없고, pathname이 아이템의 기본 경로와 같거나 하위 경로인지 확인합니다.
+   * @param itemHref 네비게이션 아이템의 href 속성 값
+   * @returns {boolean} 활성화 여부
+   */
+  const isActive = (itemHref: string): boolean => {
+    // 아이템 href에서 카테고리 슬러그 추출 시도
+    const itemHrefParts = itemHref.split("?category=");
+    const itemBaseHref = itemHrefParts[0]; // 예: "/gallery"
+    const itemCategorySlug = itemHrefParts.length > 1 ? itemHrefParts[1] : null;
 
-  // 현재 경로 또는 카테고리에 따라 네비게이션 항목 활성화 여부 판단
-  const isActive = (itemHref: string) => {
-    // 정확히 일치하는 경우
-    if (currentPath === itemHref) {
-      return true;
+    // Case 1: 아이템이 특정 카테고리를 나타내는 경우
+    if (itemCategorySlug) {
+      // 현재 URL의 카테고리와 아이템의 카테고리가 일치하면 활성
+      return currentCategory === itemCategorySlug;
     }
 
-    // 쿼리 파라미터 형식인 경우 (예: /news?category=slug1)
-    if (itemHref.includes("?category=")) {
-      const categoryMatch = itemHref.match(/category=([^&]+)/);
-      const itemCategory = categoryMatch ? categoryMatch[1] : null;
-      return currentCategory === itemCategory;
+    // Case 2: 아이템이 '전체보기'를 나타내는 경우 (itemCategorySlug가 null)
+    // '전체보기'는 현재 URL에 카테고리가 없고,
+    // 현재 pathname이 아이템의 기본 경로와 같거나 하위 경로일 때 활성
+    if (!currentCategory) {
+      // itemBaseHref가 루트('/')인 경우 정확히 일치할 때만 활성 (다른 모든 페이지에서 활성화 방지)
+      if (itemBaseHref === "/") {
+        return pathname === "/";
+      }
+      // 현재 pathname이 아이템 기본 경로와 같거나(예: /gallery)
+      // 하위 경로일 때(예: /gallery/123) 활성
+      return (
+        pathname === itemBaseHref || pathname.startsWith(itemBaseHref + "/")
+      );
     }
 
-    // 전체보기 메뉴의 경우
-    if (!itemHref.includes("?")) {
-      // 1. 현재 페이지에 category 쿼리 파라미터가 있는 경우, 전체보기는 활성화되지 않음
-      if (currentCategory) {
-        return false;
-      }
-
-      // 2. 경로가 완전히 일치하는 경우 (파라미터 없는 기본 페이지)
-      if (pathname === itemHref) {
-        return true;
-      }
-
-      // 3. 하위 페이지인 경우 (예: /gallery/1)
-      if (pathname.startsWith(itemHref)) {
-        const pathParts = pathname.split("/");
-        const hrefParts = itemHref.split("/");
-
-        // 기본 경로가 같고, 상세 페이지인 경우에만 활성화
-        if (
-          pathParts.length > hrefParts.length &&
-          pathParts.slice(0, hrefParts.length).join("/") === itemHref
-        ) {
-          return true;
-        }
-      }
-    }
-
+    // 그 외의 경우 (현재 URL에 카테고리가 있는데 아이템은 '전체보기'인 경우 등) 비활성
     return false;
   };
 
@@ -83,22 +73,23 @@ export default function SubNavBar({ items }: SubNavBarProps) {
         style={{
           top: `${HEADER_HEIGHT}px`,
           height: `${SUB_NAV_HEIGHT}px`,
-          transform: `translateY(${subNavTranslateY}px)`,
+          transform: `translateY(${headerTranslateY}px)`,
           transition: isTransitionEnabled
             ? "transform 0.2s ease-in-out"
             : "none",
         }}
       >
-        <Container variant="horizontal" className="h-full">
-          <NavigationMenu className="h-full">
+        {/* Container 제거하고 직접 스크롤 컨테이너 구현 */}
+        <div className="h-full w-full overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-4 sm:px-6 md:px-8">
+          <NavigationMenu className="h-full min-w-max inline-flex">
             <NavigationMenuList className="flex h-full space-x-1">
               {items.map((item) => (
-                <NavigationMenuItem key={item.value}>
+                <NavigationMenuItem key={item.value} className="flex-shrink-0">
                   <NavigationMenuLink asChild>
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md",
+                        "inline-flex items-center justify-center px-2 md:px-3 py-1.5 text-sm font-medium transition-colors rounded-md whitespace-nowrap",
                         isActive(item.href)
                           ? "text-accent-foreground"
                           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -111,7 +102,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-        </Container>
+        </div>
       </div>
       <div style={{ height: `${SUB_NAV_HEIGHT}px` }} />
     </>

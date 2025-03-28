@@ -1,5 +1,5 @@
 // src/hooks/useHeaderScrollBehavior.ts
-// 스크롤 위치/방향에 따라 헤더와 서브네비의 표시 상태 및 애니메이션을 제어합니다.
+// 스크롤 위치/방향에 따라 헤더의 표시 상태 및 애니메이션을 제어합니다.
 // 헤더는 항상 고정(fixed) 상태를 유지합니다.
 
 "use client";
@@ -15,12 +15,11 @@ const SCROLL_LOCK_TIME = 300; // 방향 전환 후 짧은 반대 스크롤 무�
 const TOP_MARGIN = 5; // 페이지 최상단에서 트랜지션 없이 고정될 여백 (px)
 
 /**
- * 헤더/서브네비 스크롤 동작 제어 훅
- * @returns { headerTranslateY, subNavTranslateY, isTransitionEnabled }
+ * 헤더 스크롤 동작 제어 훅
+ * @returns { headerTranslateY, isTransitionEnabled }
  */
 export function useHeaderScrollBehavior() {
   const [headerTranslateY, setHeaderTranslateY] = useState<number>(0);
-  const [subNavTranslateY, setSubNavTranslateY] = useState<number>(0);
   const [isTransitionEnabled, setIsTransitionEnabled] =
     useState<boolean>(false);
 
@@ -50,14 +49,24 @@ export function useHeaderScrollBehavior() {
       let newHeaderTranslateY = 0;
       let transitionEnabled = false;
 
+      // 헤더가 숨겨진 상태인지 확인 (이전 상태 기반)
+      const wasHeaderHidden = headerVisible.current === false;
+
       // 2. 영역별 처리 로직
       // 2-1. 헤더 높이 이내 영역
       if (currentScrollY <= HEADER_HEIGHT) {
-        newHeaderTranslateY = 0; // 항상 헤더 표시
+        // 항상 헤더 표시
+        newHeaderTranslateY = 0;
+
+        // 헤더가 이전에 숨겨져 있었다면, 무조건 트랜지션 활성화 (부드러운 등장)
+        if (wasHeaderHidden) {
+          transitionEnabled = true;
+        } else {
+          // 최상단 영역에서는 트랜지션 비활성화 (페이지 로드 시 깜빡임 방지)
+          transitionEnabled = currentScrollY > TOP_MARGIN;
+        }
+
         headerVisible.current = true;
-        // 아래 영역에서 위로 올라올 때만 transition 활성화 (부드러운 등장)
-        transitionEnabled =
-          currentScrollY > TOP_MARGIN && prevScrollY.current > HEADER_HEIGHT;
       }
       // 2-2. 헤더 높이 초과 영역
       else {
@@ -85,24 +94,19 @@ export function useHeaderScrollBehavior() {
         }
       }
 
-      const newSubNavTranslateY = newHeaderTranslateY;
-
       // 이전 스크롤 위치 업데이트
       prevScrollY.current = currentScrollY;
 
       return {
         newHeaderTranslateY,
-        newSubNavTranslateY,
         transitionEnabled,
       };
     };
 
     // 계산된 값으로 상태 업데이트
-    const { newHeaderTranslateY, newSubNavTranslateY, transitionEnabled } =
-      calculateNewStates();
+    const { newHeaderTranslateY, transitionEnabled } = calculateNewStates();
 
     setHeaderTranslateY(newHeaderTranslateY);
-    setSubNavTranslateY(newSubNavTranslateY);
     setIsTransitionEnabled(transitionEnabled);
   }, []);
 
@@ -137,5 +141,5 @@ export function useHeaderScrollBehavior() {
     };
   }, [updatePositions]);
 
-  return { headerTranslateY, subNavTranslateY, isTransitionEnabled };
+  return { headerTranslateY, isTransitionEnabled };
 }

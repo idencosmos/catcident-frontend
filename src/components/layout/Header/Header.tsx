@@ -8,6 +8,7 @@ import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Link } from "@/i18n/routing";
 import Container from "@/components/common/Container";
 import HeaderClient from "./HeaderClient";
+import Image from "next/image";
 
 interface SubMenu {
   id: number;
@@ -37,18 +38,26 @@ export default function Header({ siteTitle, navGroups }: HeaderProps) {
       >
         <Link
           href="/home"
-          className="font-bold text-xl hover:text-primary transition-colors"
+          className="font-bold text-lg hover:text-primary transition-colors truncate whitespace-nowrap overflow-hidden flex items-center gap-2"
         >
+          <Image
+            src="/logo.png" // 로고 파일 경로
+            alt="사이트 로고"
+            width={28}
+            height={28}
+            className="h-7 w-auto flex-shrink-0" // 로고 크기 조정
+          />
           {siteTitle}
         </Link>
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-2">
           <NavigationMenu>
             <MainNav menuGroups={navGroups} />
           </NavigationMenu>
-          <ModeToggle />
           <LanguageSwitcher />
+          <ModeToggle />
         </div>
         <div className="flex md:hidden items-center space-x-2">
+          <LanguageSwitcher />
           <ModeToggle />
           <MainNav menuGroups={navGroups} mobile />
         </div>
