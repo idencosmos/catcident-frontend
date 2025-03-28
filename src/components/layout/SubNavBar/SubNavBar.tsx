@@ -1,7 +1,7 @@
-"use client";
-
 // src/components/layout/SubNavBar/SubNavBar.tsx
-// 카테고리 필터링 등 페이지 내 하위 네비게이션을 제공하는 컴포넌트입니다
+// 카테고리 필터링 등 페이지 내 하위 네비게이션을 제공하고 스크롤 동작을 적용합니다.
+
+"use client";
 
 import {
   NavigationMenu,
@@ -28,12 +28,11 @@ export default function SubNavBar({ items }: SubNavBarProps) {
   const currentPath =
     pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
 
-  // 현재 카테고리 파라미터 추출
   const currentCategory = searchParams.get("category");
 
   const { subNavTranslateY, isTransitionEnabled } = useHeaderScrollBehavior();
 
-  // 현재 활성화된 항목 판단 함수
+  // 현재 경로 또는 카테고리에 따라 네비게이션 항목 활성화 여부 판단
   const isActive = (itemHref: string) => {
     // 정확히 일치하는 경우
     if (currentPath === itemHref) {

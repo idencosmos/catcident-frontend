@@ -28,10 +28,7 @@ export default function LanguageSwitcher() {
       <SelectTrigger className="w-auto gap-2">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
-      <SelectContent
-        className="min-w-[0]"
-        align="end"
-      >
+      <SelectContent className="min-w-[0]" align="end">
         {routing.locales.map((loc) => (
           <SelectItem key={loc} value={loc} className="cursor-pointer">
             {loc.toUpperCase()}

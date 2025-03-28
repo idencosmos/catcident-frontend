@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html {
   overflow-y: scroll;
 }
 
@@ -67,6 +67,7 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    @apply !min-w-full;
   }
 }
 

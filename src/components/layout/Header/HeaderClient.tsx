@@ -1,7 +1,7 @@
-"use client";
-
 // src/components/layout/Header/HeaderClient.tsx
-// 헤더의 클라이언트 사이드 기능과 스크롤 동작을 담당하는 컴포넌트입니다
+// 헤더의 클라이언트 사이드 기능(스크롤 동작)을 적용하고 UI를 렌더링합니다.
+
+"use client";
 
 import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
 import { ReactNode } from "react";
@@ -28,7 +28,7 @@ export default function HeaderClient({ children }: HeaderClientProps) {
       >
         {children}
       </header>
-      {/* 헤더 높이만큼 여백 추가 */}
+      {/* 헤더 높이만큼의 공간 확보용 플레이스홀더 */}
       <div style={{ height: `${HEADER_HEIGHT}px` }} />
     </>
   );
