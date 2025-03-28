@@ -35,20 +35,24 @@ export default async function HomePage({
   // 섹션을 행으로 그룹화 (full width 섹션은 별도 행)
   const groupedSections = sections.reduce((groups, section) => {
     if (!section.is_active) return groups;
-    
+
     if (section.layout === "full") {
       // full width 섹션은 별도의 행으로 처리
       groups.push([section]);
     } else {
       // 마지막 행이 비어있거나 2개 미만의 항목이 있으면 추가
       const lastGroup = groups[groups.length - 1];
-      if (!lastGroup || lastGroup.length >= 2 || lastGroup[0]?.layout === "full") {
+      if (
+        !lastGroup ||
+        lastGroup.length >= 2 ||
+        lastGroup[0]?.layout === "full"
+      ) {
         groups.push([section]);
       } else {
         lastGroup.push(section);
       }
     }
-    
+
     return groups;
   }, [] as HomeSection[][]);
 
@@ -56,13 +60,17 @@ export default async function HomePage({
     <>
       <HeroSection locale={locale} />
       <Container>
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6 md:space-y-8">
           {groupedSections.map((row, rowIndex) => (
-            <Grid key={`row-${rowIndex}`} variant="home" className="grid-flow-row auto-rows-fr">
+            <Grid
+              key={`row-${rowIndex}`}
+              variant="home"
+              className="grid-flow-row auto-rows-fr"
+            >
               {row.map((section) => {
-                const layoutClass = 
+                const layoutClass =
                   section.layout === "full" ? "md:col-span-2" : "md:col-span-1";
-                
+
                 return (
                   <Card
                     key={section.id}

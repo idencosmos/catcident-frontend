@@ -20,16 +20,16 @@ export default function HeaderClient({ children }: HeaderClientProps) {
     <>
       {/* 고정 헤더: 스크롤 동작에 따라 위치 및 애니메이션 적용 */}
       <header
-        className="fixed top-0 z-50 w-full border-b bg-background backdrop-blur-md"
+        className="fixed top-0 z-50 w-full bg-background"
         style={{
           height: `${HEADER_HEIGHT}px`,
           transform: `translateY(${headerTranslateY}px)`,
           transition: isTransitionEnabled
-            ? "transform 0.2s ease-in-out" // 트랜지션 활성화 시 부드러운 이동
-            : "none", // 트랜지션 비활성화 시 즉시 이동
+            ? "transform 0.2s ease-in-out"
+            : "none",
         }}
       >
-        {children} {/* Header 컴포넌트의 실제 내용 */}
+        {children}
       </header>
       {/* 고정 헤더로 인해 가려지는 콘텐츠 영역 확보용 플레이스홀더 */}
       <div style={{ height: `${HEADER_HEIGHT}px` }} />

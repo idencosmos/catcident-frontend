@@ -74,14 +74,14 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
         {/* 모바일 메뉴 콘텐츠 */}
         <SheetContent
           side="bottom"
-          className="p-8 bg-background/95 backdrop-blur-sm"
+          className="p-8 bg-background backdrop-blur-sm"
         >
-          <SheetHeader className="pt-4">
+          <SheetHeader className="pt-2">
             <div className="flex items-center justify-between">
-              <SheetTitle className="text-2xl font-bold">Menu</SheetTitle>
+              <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
             </div>
           </SheetHeader>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-3 space-y-1">
             {menuGroups.map((group) => (
               <li key={group.id}>
                 {/* 서브 메뉴가 하나인 경우: 그룹 레이블을 바로 링크로 사용 */}
@@ -90,7 +90,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                     <Link
                       href={group.sub_menus[0].href}
                       className={cn(
-                        "block px-3 py-2 text-base font-medium transition-colors",
+                        "block px-3 py-1.5 text-base font-medium transition-colors",
                         isCurrentPath(group.sub_menus[0].href)
                           ? "text-primary border-l-4 border-primary pl-2 font-bold"
                           : group.highlighted
@@ -106,7 +106,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                   <>
                     <span
                       className={cn(
-                        "block px-3 py-2 text-base font-medium transition-colors",
+                        "block px-3 py-1.5 text-base font-medium transition-colors",
                         group.highlighted ? "font-bold" : "text-foreground"
                       )}
                     >
@@ -114,7 +114,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                     </span>
                     {/* 서브 메뉴 목록 */}
                     {group.sub_menus.length > 0 && (
-                      <ul className="ml-4 mt-2 mb-4 space-y-1">
+                      <ul className="ml-4 mt-1 mb-2 space-y-0.5">
                         {group.sub_menus.map((sub) => (
                           <li key={sub.id}>
                             <SheetClose asChild>
@@ -167,7 +167,7 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                 </NavigationMenuTrigger>
                 {/* 드롭다운 콘텐츠 */}
                 <NavigationMenuContent>
-                  <ul className="min-w-[200px] space-y-4 p-2 py-4 bg-background/95 backdrop-blur-sm">
+                  <ul className="min-w-[200px] space-y-4 p-2 py-4 bg-background backdrop-blur-sm">
                     {group.sub_menus.map((sub) => (
                       <li key={sub.id}>
                         <NavigationMenuLink asChild>

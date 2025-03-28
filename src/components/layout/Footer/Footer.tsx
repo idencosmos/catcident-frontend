@@ -18,19 +18,20 @@ export default async function Footer({ locale }: FooterProps) {
   const copyrightData: Copyright = await getCopyright(locale);
 
   return (
-    <footer className="bg-background/95 backdrop-blur-md border-t">
+    <footer className="bg-background backdrop-blur-md border-t">
       <Container className="border-b">
         <Grid className="text-sm">
           {footerSections.map((section) => (
             <div key={section.id}>
-              <h2 className="font-semibold text-lg mb-1 sm:mb-2">
-                {section.label}
-              </h2>
+              <h2 className="font-semibold text-lg mb-2">{section.label}</h2>
               {section.sub_menus && (
                 <ul className="space-y-1">
                   {section.sub_menus.map((sub) => (
                     <li key={sub.id}>
-                      <a href={sub.href} className="hover:text-accent">
+                      <a
+                        href={sub.href}
+                        className="text-base hover:text-accent"
+                      >
                         {sub.label}
                       </a>
                     </li>
@@ -42,13 +43,13 @@ export default async function Footer({ locale }: FooterProps) {
         </Grid>
       </Container>
       <Container>
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-6 md:space-y-0 text-sm text-muted-foreground">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-6 md:space-y-0 text-muted-foreground">
           <div>
-            <h3 className="font-semibold mb-2">Family Sites</h3>
+            <h3 className="font-semibold text-lg mb-2">Family Sites</h3>
             <ul className="flex gap-4">
               {familySites.map((site) => (
                 <li key={site.id}>
-                  <a href={site.href} className="hover:text-accent">
+                  <a href={site.href} className="text-base hover:text-accent">
                     {site.label}
                   </a>
                 </li>

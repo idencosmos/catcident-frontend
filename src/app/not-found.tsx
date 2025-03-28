@@ -8,44 +8,53 @@ import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-background">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
       <div className="text-center max-w-sm mx-auto">
-        {/* 로고 이미지 */}
-        <Image
-          src="/logo.png"
-          alt="Catcident 로고"
-          width={160}
-          height={160}
-          className="mx-auto mb-6"
-          priority
-        />
-
-        {/* 브랜드 이름 */}
-        <h1 className="text-2xl font-semibold text-foreground mb-1 leading-tight">
-          고양이의 만행
-        </h1>
-        <p className="text-lg text-muted-foreground mb-3">Catcident</p>
-
-        {/* 슬로건 */}
-        <p className="text-sm text-muted-foreground/80 italic mb-10">
-          조선문화를 탐낸 고양이들
-        </p>
-
-        {/* 404 메시지 */}
-        <div className="mb-10 border-t pt-8 border-border">
-          <h2 className="text-7xl font-bold text-foreground mb-3">404</h2>
-          <p className="text-xl text-foreground mb-1">
-            페이지를 찾을 수 없습니다
-          </p>
-          <p className="text-base text-muted-foreground">Page Not Found</p>
+        {/* 로고와 브랜드 정보를 함께 배치 */}
+        <div className="flex items-center justify-center mb-6">
+          <Image
+            src="/logo.png"
+            alt="Catcident 로고"
+            width={90}
+            height={90}
+            className="mr-5"
+            priority
+          />
+          <div className="text-left">
+            <div className="mb-1">
+              <h1 className="text-xl font-bold leading-tight">고양이의 만행</h1>
+              <p className="text-xl font-semibold">CATCIDENT</p>
+            </div>
+            <div className="mt-2 pt-2 border-t border-border">
+              <p className="text-xs text-muted-foreground italic">
+                조선문화를 탐낸 고양이들
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* 홈으로 이동 버튼 */}
-        <Link href="/ko/home">
-          <Button variant="outline" size="lg" className="px-10 py-6 text-base">
-            홈으로 돌아가기 / Back to Home
-          </Button>
-        </Link>
+        {/* 404 메시지 */}
+        <div className="my-6 pt-4 border-t border-border">
+          <h2 className="text-6xl font-bold mb-3">404</h2>
+          <p className="text-lg font-medium mb-1">페이지를 찾을 수 없습니다</p>
+          <p className="text-sm text-muted-foreground mb-6">Page Not Found</p>
+
+          {/* 홈으로 이동 버튼 */}
+          <Link href="/home" className="inline-block">
+            <Button
+              variant="outline"
+              className="px-6 py-2 border-[#a03046]/30 hover:bg-[#a03046]/5 transition-colors group"
+            >
+              <span className="font-medium group-hover:text-[#a03046]">
+                홈으로
+              </span>
+              <span className="mx-2 text-muted-foreground">|</span>
+              <span className="font-normal group-hover:text-[#a03046]">
+                Home
+              </span>
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

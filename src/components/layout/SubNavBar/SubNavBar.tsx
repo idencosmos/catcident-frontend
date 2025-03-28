@@ -82,9 +82,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
   return (
     <>
       <div
-        className={cn(
-          "fixed z-40 w-full border-b bg-background/50 backdrop-blur-md"
-        )}
+        className={cn("fixed z-40 w-full border-b bg-background")}
         style={{
           top: `${HEADER_HEIGHT}px`,
           height: `${SUB_NAV_HEIGHT}px`,
