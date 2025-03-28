@@ -1,6 +1,5 @@
 // src/components/layout/Header/MainNav.tsx
-// 메인 네비게이션 메뉴를 데스크톱(NavigationMenu) 및 모바일(Sheet) 버전으로 렌더링합니다.
-// 현재 경로에 따라 활성 메뉴 스타일을 적용합니다.
+// 메인 네비게이션 메뉴를 데스크톱 및 모바일 버전으로 렌더링합니다.
 
 "use client";
 
@@ -53,8 +52,6 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
   /**
    * 현재 URL 경로가 주어진 href를 포함하는지 확인하여 활성 메뉴 여부를 판단합니다.
    * 루트 경로("/")는 항상 활성 상태로 간주하지 않습니다.
-   * @param href 비교할 메뉴의 href
-   * @returns {boolean} 현재 경로에 해당하면 true
    */
   const isCurrentPath = (href: string) => {
     return pathname.includes(href) && href !== "/";
@@ -64,17 +61,17 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
   if (mobile) {
     return (
       <Sheet open={open} onOpenChange={setOpen}>
-        {/* 모바일 메뉴 트리거 버튼 (햄버거 아이콘) */}
+        {/* 모바일 메뉴 트리거 버튼 */}
         <SheetTrigger asChild>
           <Button
             variant="outline"
             aria-label="Open Menu"
-            className={cn("h-8 w-8")} // 버튼 크기 h-8, w-8
+            className={cn("h-8 w-8")}
           >
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        {/* 모바일 메뉴 콘텐츠 (화면 하단에서 슬라이드 업) */}
+        {/* 모바일 메뉴 콘텐츠 */}
         <SheetContent
           side="bottom"
           className="p-8 bg-background/95 backdrop-blur-sm"
@@ -90,18 +87,15 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                 {/* 서브 메뉴가 하나인 경우: 그룹 레이블을 바로 링크로 사용 */}
                 {group.sub_menus.length === 1 ? (
                   <SheetClose asChild>
-                    {" "}
-                    {/* 링크 클릭 시 Sheet 닫기 */}
                     <Link
                       href={group.sub_menus[0].href}
                       className={cn(
                         "block px-3 py-2 text-base font-medium transition-colors",
-                        // 활성 상태 스타일 적용
                         isCurrentPath(group.sub_menus[0].href)
                           ? "text-primary border-l-4 border-primary pl-2 font-bold"
-                          : group.highlighted // 하이라이트 그룹 스타일
+                          : group.highlighted
                           ? "font-bold hover:text-primary"
-                          : "text-foreground hover:text-primary" // 기본 스타일
+                          : "text-foreground hover:text-primary"
                       )}
                     >
                       {group.group_label}
@@ -124,16 +118,13 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                         {group.sub_menus.map((sub) => (
                           <li key={sub.id}>
                             <SheetClose asChild>
-                              {" "}
-                              {/* 링크 클릭 시 Sheet 닫기 */}
                               <Link
                                 href={sub.href}
                                 className={cn(
                                   "block px-3 py-1 text-base transition-colors",
-                                  // 활성 상태 스타일 적용
                                   isCurrentPath(sub.href)
                                     ? "text-primary border-l-4 border-primary pl-2 font-bold"
-                                    : "text-muted-foreground hover:text-primary hover:font-medium" // 기본 스타일
+                                    : "text-muted-foreground hover:text-primary hover:font-medium"
                                 )}
                               >
                                 {sub.label}
@@ -165,12 +156,11 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                 <NavigationMenuTrigger
                   className={cn(
                     "transition-colors rounded-md font-medium",
-                    // 활성 상태 스타일 적용 (하위 메뉴 중 하나라도 활성이면)
                     group.sub_menus.some((sub) => isCurrentPath(sub.href))
                       ? "text-primary border-b-2 border-primary font-bold rounded-none"
-                      : group.highlighted // 하이라이트 그룹 스타일
+                      : group.highlighted
                       ? "font-bold hover:text-primary"
-                      : "text-foreground hover:text-primary hover:bg-muted" // 기본 스타일
+                      : "text-foreground hover:text-primary hover:bg-muted"
                   )}
                 >
                   {group.group_label}
@@ -185,10 +175,9 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
                             href={sub.href}
                             className={cn(
                               "block select-none px-3 py-1 text-sm leading-none no-underline outline-none transition-colors font-medium",
-                              // 활성 상태 스타일 적용
                               isCurrentPath(sub.href)
                                 ? "text-primary border-l-2 border-primary pl-2.5 font-bold"
-                                : "text-foreground hover:text-primary" // 기본 스타일
+                                : "text-foreground hover:text-primary"
                             )}
                           >
                             {sub.label}
@@ -203,15 +192,14 @@ export default function MainNav({ menuGroups, mobile = false }: MainNavProps) {
               // 서브 메뉴가 하나인 경우: 바로 링크로 표시
               <NavigationMenuLink asChild>
                 <Link
-                  href={group.sub_menus[0]?.href ?? "#"} // 서브 메뉴 없으면 #으로 이동 방지
+                  href={group.sub_menus[0]?.href ?? "#"}
                   className={cn(
                     "px-3 py-2 text-sm font-medium transition-colors rounded-md",
-                    // 활성 상태 스타일 적용
                     isCurrentPath(group.sub_menus[0]?.href ?? "")
                       ? "text-primary border-b-2 border-primary font-bold rounded-none"
-                      : group.highlighted // 하이라이트 그룹 스타일
+                      : group.highlighted
                       ? "font-bold hover:text-primary hover:bg-muted"
-                      : "text-foreground hover:text-primary hover:bg-muted" // 기본 스타일
+                      : "text-foreground hover:text-primary hover:bg-muted"
                   )}
                 >
                   {group.group_label}
