@@ -1,6 +1,5 @@
 // src/app/[locale]/gallery/layout.tsx
-// 갤러리 페이지의 공통 레이아웃을 정의합니다.
-// SubNavBar와 Container를 모든 하위 페이지에 제공합니다.
+// 갤러리 관련 페이지들의 공통 레이아웃을 제공하는 컴포넌트입니다
 
 import { Suspense } from "react";
 import { getGalleryCategories } from "@/lib/api/gallery";

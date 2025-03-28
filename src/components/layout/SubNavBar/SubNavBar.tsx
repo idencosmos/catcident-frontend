@@ -1,7 +1,7 @@
-// src/components/layout/SubNavBar/SubNavBar.tsx
-// 서브 내비게이션 바 컴포넌트 - 카테고리 필터링 및 네비게이션 제공
-
 "use client";
+
+// src/components/layout/SubNavBar/SubNavBar.tsx
+// 카테고리 필터링 등 페이지 내 하위 네비게이션을 제공하는 컴포넌트입니다
 
 import {
   NavigationMenu,
@@ -15,6 +15,7 @@ import { SubNavItem } from "./SubNavBarItem";
 import { useHeaderScrollBehavior } from "@/hooks/useHeaderScrollBehavior";
 import { cn } from "@/lib/utils";
 import Container from "@/components/common/Container";
+import { HEADER_HEIGHT, SUB_NAV_HEIGHT } from "@/constants/layout";
 
 interface SubNavBarProps {
   items: SubNavItem[];
@@ -30,9 +31,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
   // 현재 카테고리 파라미터 추출
   const currentCategory = searchParams.get("category");
 
-  const headerHeight = 64;
-  const subNavHeight = 48;
-  const { subNavOffset } = useHeaderScrollBehavior(headerHeight);
+  const { subNavTranslateY, isTransitionEnabled } = useHeaderScrollBehavior();
 
   // 현재 활성화된 항목 판단 함수
   const isActive = (itemHref: string) => {
@@ -83,10 +82,12 @@ export default function SubNavBar({ items }: SubNavBarProps) {
       <div
         className="fixed z-40 w-full border-b bg-background/50 backdrop-blur-md"
         style={{
-          top: `${headerHeight}px`,
-          height: `${subNavHeight}px`,
-          transform: `translateY(${subNavOffset}px)`,
-          transition: "transform 0.2s ease-in-out",
+          top: `${HEADER_HEIGHT}px`,
+          height: `${SUB_NAV_HEIGHT}px`,
+          transform: `translateY(${subNavTranslateY}px)`,
+          transition: isTransitionEnabled
+            ? "transform 0.2s ease-in-out"
+            : "none",
         }}
       >
         <Container variant="horizontal" className="h-full">
@@ -113,8 +114,7 @@ export default function SubNavBar({ items }: SubNavBarProps) {
           </NavigationMenu>
         </Container>
       </div>
-      {/* 여백 추가로 콘텐츠 겹침 방지 */}
-      <div style={{ paddingTop: `${subNavHeight}px` }} />
+      <div style={{ height: `${SUB_NAV_HEIGHT}px` }} />
     </>
   );
 }

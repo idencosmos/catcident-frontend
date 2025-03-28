@@ -1,3 +1,6 @@
+// src/components/layout/Header/Header.tsx
+// 애플리케이션의 메인 헤더 컴포넌트입니다
+
 import MainNav from "./MainNav";
 import ModeToggle from "./ModeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -26,10 +29,8 @@ interface HeaderProps {
 }
 
 export default function Header({ siteTitle, navGroups }: HeaderProps) {
-  const headerHeight = 64;
-
   return (
-    <HeaderClient headerHeight={headerHeight}>
+    <HeaderClient>
       <Container
         variant="horizontal"
         className="flex h-full items-center justify-between"
