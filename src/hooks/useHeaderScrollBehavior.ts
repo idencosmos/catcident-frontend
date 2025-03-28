@@ -9,9 +9,9 @@ import { HEADER_HEIGHT } from "@/constants/layout";
 
 // 스크롤 동작 제어 상수
 const ANIMATION_FRAME_TIME = 8; // 스크롤 핸들러 실행 최소 간격 (ms)
-const SCROLL_THRESHOLD = 20; // 스크롤 방향 감지 임계값 (px)
-const FAST_SCROLL_THRESHOLD = 50; // 빠른 스크롤 감지 임계값 (px)
-const SCROLL_LOCK_TIME = 300; // 방향 전환 후 짧은 반대 스크롤 무시 시간 (ms)
+const SCROLL_THRESHOLD = 10; // 스크롤 방향 감지 임계값 (px)
+const FAST_SCROLL_THRESHOLD = 30; // 빠른 스크롤 감지 임계값 (px)
+const SCROLL_LOCK_TIME = 500; // 방향 전환 후 짧은 반대 스크롤 무시 시간 (ms)
 const TOP_MARGIN = 5; // 페이지 최상단에서 트랜지션 없이 고정될 여백 (px)
 
 /**
