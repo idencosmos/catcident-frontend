@@ -3,7 +3,7 @@ import { getCreators } from "@/lib/api/about";
 import { Creator } from "@/lib/api/_types/about/creator";
 import { EmptyState } from "@/components/common/empty-state";
 
-export default async function CreatorRedirectPage({
+export default async function CreatorsRedirectPage({
   params: paramsPromise,
 }: {
   params: Promise<{ locale: string }>;

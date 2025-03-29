@@ -6,7 +6,7 @@ import { EmptyState } from "@/components/common/empty-state";
 import DOMPurify from "isomorphic-dompurify";
 import Loading from "./loading";
 
-export default async function LicensingPage({
+export default async function LicensesPage({
   params: paramsPromise,
 }: {
   params: Promise<{ locale: string }>;
@@ -36,7 +36,9 @@ export default async function LicensingPage({
         <CardContent>
           <div
             className="prose text-foreground"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(license.content) }}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(license.content),
+            }}
           />
         </CardContent>
       </Card>

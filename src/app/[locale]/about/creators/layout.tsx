@@ -7,7 +7,7 @@ import { EmptyState } from "@/components/common/empty-state";
 import Container from "@/components/common/Container";
 import Loading from "./loading";
 
-export default async function CreatorLayout({
+export default async function CreatorsLayout({
   children,
   params: paramsPromise,
 }: {

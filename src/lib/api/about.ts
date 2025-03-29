@@ -151,10 +151,10 @@ export async function getHistoryEvent(
 }
 
 export async function getLicensePage(locale: string): Promise<LicensePage> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/license/`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/about/licenses/`;
   return fetchAPI<LicensePage>(
     url,
-    { locale, tags: ["about", "license"] },
+    { locale, tags: ["about", "licenses"] },
     DEFAULT_LICENSE_PAGE
   );
 }

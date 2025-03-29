@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Container from "@/components/common/Container";
 import Loading from "./loading";
 
-export default async function LicensingLayout({
+export default async function LicenseLayout({
   children,
 }: {
   children: React.ReactNode;

@@ -18,20 +18,17 @@ export default async function Footer({ locale }: FooterProps) {
   const copyrightData: Copyright = await getCopyright(locale);
 
   return (
-    <footer className="bg-background backdrop-blur-md border-t">
+    <footer className="bg-muted/50 text-muted-foreground border-t">
       <Container className="border-b">
-        <Grid className="text-sm">
+        <Grid variant="footer">
           {footerSections.map((section) => (
             <div key={section.id}>
-              <h2 className="font-semibold text-lg mb-2">{section.label}</h2>
+              <h3 className="font-semibold text-sm mb-2">{section.label}</h3>
               {section.sub_menus && (
-                <ul className="space-y-1">
+                <ul>
                   {section.sub_menus.map((sub) => (
                     <li key={sub.id}>
-                      <a
-                        href={sub.href}
-                        className="text-base hover:text-accent"
-                      >
+                      <a href={sub.href} className="text-xs hover:text-accent">
                         {sub.label}
                       </a>
                     </li>
@@ -45,18 +42,18 @@ export default async function Footer({ locale }: FooterProps) {
       <Container>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-6 md:space-y-0 text-muted-foreground">
           <div>
-            <h3 className="font-semibold text-lg mb-2">Family Sites</h3>
-            <ul className="flex gap-4">
+            <h3 className="font-semibold text-sm mb-2">Family Sites</h3>
+            <ul className="flex flex-wrap gap-4 gap-y-0">
               {familySites.map((site) => (
                 <li key={site.id}>
-                  <a href={site.href} className="text-base hover:text-accent">
+                  <a href={site.href} className="text-xs hover:text-accent">
                     {site.label}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
-          <div>
+          <div className="text-xs">
             © {new Date().getFullYear()} {copyrightData.text}
           </div>
         </div>
