@@ -43,9 +43,9 @@ export default function Header({ siteTitle, navGroups }: HeaderProps) {
           <Image
             src="/logo.png" // 로고 파일 경로
             alt="사이트 로고"
-            width={28}
-            height={28}
-            className="h-7 w-auto flex-shrink-0" // 로고 크기 조정
+            width={24}
+            height={24}
+            className="h-6 w-auto flex-shrink-0" // 로고 크기 조정
           />
           {siteTitle}
         </Link>
