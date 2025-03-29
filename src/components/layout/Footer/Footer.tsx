@@ -23,7 +23,7 @@ export default async function Footer({ locale }: FooterProps) {
         <Grid variant="footer">
           {footerSections.map((section) => (
             <div key={section.id}>
-              <h3 className="font-semibold text-sm mb-2">{section.label}</h3>
+              <h3 className="font-semibold text-sm mb-1">{section.label}</h3>
               {section.sub_menus && (
                 <ul>
                   {section.sub_menus.map((sub) => (
@@ -42,7 +42,7 @@ export default async function Footer({ locale }: FooterProps) {
       <Container>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-6 md:space-y-0 text-muted-foreground">
           <div>
-            <h3 className="font-semibold text-sm mb-2">Family Sites</h3>
+            <h3 className="font-semibold text-sm mb-1">Family Sites</h3>
             <ul className="flex flex-wrap gap-4 gap-y-0">
               {familySites.map((site) => (
                 <li key={site.id}>
