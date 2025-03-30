@@ -68,7 +68,8 @@ export default async function BooksSection({ locale }: BooksSectionProps) {
           <div className="flex-1 flex flex-col overflow-hidden min-w-0">
             <h3 className="text-xl font-semibold truncate">{book.title}</h3>
             <p className="text-sm text-muted-foreground mt-1 truncate">
-              {authorLabel}: {book.authors.join(", ")}
+              {authorLabel}:{" "}
+              {book.authors.map((author) => author.name).join(", ")}
             </p>
             {book.description && (
               <div className="mt-3 flex-1">
