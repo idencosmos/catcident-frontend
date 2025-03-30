@@ -28,7 +28,16 @@ export default async function Footer({ locale }: FooterProps) {
                 <ul>
                   {section.sub_menus.map((sub) => (
                     <li key={sub.id}>
-                      <a href={sub.href} className="text-xs hover:text-accent">
+                      <a
+                        href={sub.href}
+                        className="text-xs hover:text-accent"
+                        target={sub.open_in_new_tab ? "_blank" : undefined}
+                        rel={
+                          sub.open_in_new_tab
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                      >
                         {sub.label}
                       </a>
                     </li>
@@ -46,7 +55,12 @@ export default async function Footer({ locale }: FooterProps) {
             <ul className="flex flex-wrap gap-4 gap-y-0">
               {familySites.map((site) => (
                 <li key={site.id}>
-                  <a href={site.href} className="text-xs hover:text-accent">
+                  <a
+                    href={site.href}
+                    className="text-xs"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {site.label}
                   </a>
                 </li>
