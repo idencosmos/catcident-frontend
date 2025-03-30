@@ -18,6 +18,7 @@ export default async function AuthorsSection({ locale }: AuthorsSectionProps) {
   const featuredAuthorsTitle =
     locale === "ko" ? "주요 저자" : "Featured Author";
   const viewProfileText = locale === "ko" ? "프로필 보기" : "View Profile";
+  const noImageText = locale === "ko" ? "이미지 없음" : "No Image";
 
   if (authors.length === 0) return null;
 
@@ -25,23 +26,29 @@ export default async function AuthorsSection({ locale }: AuthorsSectionProps) {
 
   return (
     <div className="h-full flex flex-col">
-      <CardTitle className="text-2xl mb-4 md:mb-6">{featuredAuthorsTitle}</CardTitle>
+      <CardTitle className="text-2xl mb-4 md:mb-6">
+        {featuredAuthorsTitle}
+      </CardTitle>
 
       <div className="flex-1 flex flex-col sm:flex-row gap-4 sm:gap-6">
         {/* 저자 이미지 */}
         <div className="flex-shrink-0 w-[140px] mx-auto sm:mx-0 flex flex-col items-center">
-          <div className="relative w-24 h-24 mb-3 overflow-hidden rounded-full">
+          <div className="relative w-full mb-3 overflow-hidden rounded-md">
             {author.photo ? (
               <Image
                 src={author.photo.file}
                 alt={author.name}
-                fill
-                className="object-cover transition-transform group-hover:scale-105"
-                sizes="(max-width: 768px) 96px, 96px"
+                width={140}
+                height={140}
+                style={{ width: "100%", height: "auto" }}
+                className="object-contain rounded-md shadow-sm transition-transform group-hover:scale-105"
+                sizes="(max-width: 768px) 140px, 140px"
               />
             ) : (
-              <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
-                {author.name.charAt(0)}
+              <div className="w-full h-24 bg-muted flex items-center justify-center text-muted-foreground rounded-md">
+                <span className="text-muted-foreground text-xs">
+                  {noImageText}
+                </span>
               </div>
             )}
           </div>

@@ -30,7 +30,7 @@ export default async function Footer({ locale }: FooterProps) {
                     <li key={sub.id}>
                       <a
                         href={sub.href}
-                        className="text-xs hover:text-accent"
+                        className="text-xs"
                         target={sub.open_in_new_tab ? "_blank" : undefined}
                         rel={
                           sub.open_in_new_tab

@@ -1,5 +1,6 @@
 // src/app/[locale]/home/_sections/BooksSection.tsx
 // 홈페이지에 표시될 최신 도서 섹션 컴포넌트 - 최신 책 1권을 미니멀하고 시각적으로 효과적으로 표시
+import { stripHtml } from "string-strip-html";
 import { getLatestBooks } from "@/lib/api/home";
 import { CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,12 +23,16 @@ export default async function BooksSection({ locale }: BooksSectionProps) {
   const authorLabel = locale === "ko" ? "저자" : "Author";
   const newLabel = locale === "ko" ? "신간" : "New";
   const viewDetailsText = locale === "ko" ? "자세히 보기" : "View Details";
+  const noDescriptionText =
+    locale === "ko" ? "설명이 없습니다." : "No description available.";
 
   if (!book) return null;
 
   return (
     <div className="h-full flex flex-col">
-      <CardTitle className="text-2xl mb-4 md:mb-6">{latestBooksTitle}</CardTitle>
+      <CardTitle className="text-2xl mb-4 md:mb-6">
+        {latestBooksTitle}
+      </CardTitle>
 
       {/* 카드 내용 영역 */}
       <div className="flex-1 flex flex-col">
@@ -68,7 +73,9 @@ export default async function BooksSection({ locale }: BooksSectionProps) {
             {book.description && (
               <div className="mt-3 flex-1">
                 <p className="text-sm text-foreground/90 line-clamp-4 sm:line-clamp-5 md:line-clamp-6">
-                  {book.description}
+                  {book.description
+                    ? stripHtml(book.description).result
+                    : noDescriptionText}
                 </p>
               </div>
             )}

@@ -41,13 +41,13 @@ export const EventDetailPanel: FC<EventDetailPanelProps> = ({
       role="dialog"
       aria-labelledby="event-detail-title"
       aria-modal="true"
-      className="fixed inset-0 bg-background/80 z-50 flex items-end justify-center sm:items-center"
+      className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-end justify-center sm:items-center"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div
-        className="bg-background p-4 rounded-t-lg shadow-lg w-full sm:rounded-lg sm:max-w-2xl sm:p-6 max-h-[80vh] overflow-y-auto animate-in slide-in-from-bottom duration-300"
+        className="bg-card dark:bg-card/95 p-4 rounded-t-lg shadow-lg w-full sm:rounded-lg sm:max-w-2xl sm:p-6 max-h-[80vh] overflow-y-auto animate-in slide-in-from-bottom duration-300 border dark:border-border/30"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
@@ -64,7 +64,7 @@ export const EventDetailPanel: FC<EventDetailPanelProps> = ({
           </Button>
         </div>
 
-        <Card className="border-0 shadow-none">
+        <Card className="border-0 shadow-none bg-transparent">
           <CardHeader className="px-0">
             <CardTitle className="text-2xl">{event.title}</CardTitle>
             <p className="text-sm text-muted-foreground">
@@ -83,7 +83,7 @@ export const EventDetailPanel: FC<EventDetailPanelProps> = ({
               />
             )}
             <div
-              className="prose text-foreground max-w-none"
+              className="prose text-foreground max-w-none dark:prose-invert"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(event.description || ""),
               }}
