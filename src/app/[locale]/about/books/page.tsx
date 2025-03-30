@@ -1,10 +1,19 @@
 // src/app/[locale]/about/books/page.tsx
+// 책 목록 페이지 컴포넌트
+// 카테고리별 필터링을 지원하며, 책 표지, 제목, 부제목, 저자 정보를 카드 형태로 표시
+
 import Image from "next/image";
 
 import { Link } from "@/i18n/routing";
 import { getBooks } from "@/lib/api/about";
 import { Book } from "@/lib/api/_types/about/book";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import Grid from "@/components/common/Grid";
 
 interface PageProps {
@@ -24,27 +33,48 @@ export default async function BooksPage({
     ? books.filter((book) => book.category?.slug === category)
     : books;
 
+  // 간단한 현지화 텍스트
+  const authorLabel = locale === "ko" ? "저자" : "Author";
+
   return (
     <Grid variant="spacious">
       {filteredBooks.map((book) => (
         <Link key={book.id} href={`/about/books/${book.id}`}>
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
             <CardHeader>
               <CardTitle>{book.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {book.cover_image && (
-                <Image
-                  src={book.cover_image.file}
-                  alt={book.title}
-                  width={150}
-                  height={200}
-                  className="rounded-md mb-2"
-                />
+              {book.subtitle && (
+                <CardDescription>{book.subtitle}</CardDescription>
               )}
-              <p className="text-sm text-muted-foreground">
-                {new Date(book.pub_date).toLocaleDateString(locale)}
-              </p>
+            </CardHeader>
+            <CardContent className="flex-grow flex flex-col">
+              {book.cover_image && (
+                <div className="flex justify-center mb-4">
+                  <Image
+                    src={book.cover_image.file}
+                    alt={book.title}
+                    width={180}
+                    height={240}
+                    className="rounded-md shadow-sm"
+                  />
+                </div>
+              )}
+
+              {book.summary && (
+                <p className="text-sm mb-4 line-clamp-2">{book.summary}</p>
+              )}
+
+              <div className="mt-auto">
+                {book.authors && book.authors.length > 0 && (
+                  <p className="text-sm mb-2">
+                    <span className="font-medium">{authorLabel}:</span>{" "}
+                    {book.authors.map((author) => author.name).join(", ")}
+                  </p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  {new Date(book.pub_date).toLocaleDateString(locale)}
+                </p>
+              </div>
             </CardContent>
           </Card>
         </Link>

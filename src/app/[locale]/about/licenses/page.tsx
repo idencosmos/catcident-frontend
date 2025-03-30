@@ -1,3 +1,6 @@
+// 라이선스 정보 페이지 컴포넌트
+// 서비스의 라이선스 정보와 마지막 업데이트 날짜를 표시합니다.
+
 import { Suspense } from "react";
 import { getLicensePage } from "@/lib/api/about";
 import { LicensePage } from "@/lib/api/_types/about/license";
@@ -35,7 +38,7 @@ export default async function LicensesPage({
         </CardHeader>
         <CardContent>
           <div
-            className="prose text-foreground"
+            className="prose prose-sm sm:prose lg:prose-lg dark:prose-invert !max-w-none"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(license.content),
             }}

@@ -1,11 +1,14 @@
 // src/lib/api/about.ts
+// About 페이지 관련 API 요청 함수 모음
+// 책, 캐릭터, 역사, 라이센스 등의 정보를 백엔드로부터 가져오는 기능 제공
 import { fetchAPI } from "./common";
-import { Creator } from "@/lib/api/_types/about/creator";
+import { Creator, SimpleCreator } from "@/lib/api/_types/about/creator";
 import { BookCategory, Book } from "@/lib/api/_types/about/book";
 import { Character } from "@/lib/api/_types/about/character";
 import { HistoryEvent } from "@/lib/api/_types/about/history";
 import { LicensePage } from "@/lib/api/_types/about/license";
 
+// Creator 관련 기본값
 const DEFAULT_CREATORS: Creator[] = [];
 const DEFAULT_CREATOR: Creator = {
   id: -1,
@@ -16,28 +19,39 @@ const DEFAULT_CREATOR: Creator = {
   description: "",
 };
 
+// 간소화된 Creator 정보의 기본값
+const DEFAULT_SIMPLE_CREATOR: SimpleCreator = {
+  id: -1,
+  slug: "unknown-creator",
+  name: "Unknown Creator",
+};
+
+// Book 관련 기본값
 const DEFAULT_BOOK_CATEGORIES: BookCategory[] = [];
 const DEFAULT_BOOKS: Book[] = [];
 const DEFAULT_BOOK: Book = {
   id: -1,
   title: "Book unavailable",
   subtitle: "",
+  summary: "",
   description: "",
   cover_image: null,
   pub_date: "",
   category: null,
-  authors: [],
+  authors: [DEFAULT_SIMPLE_CREATOR], // 기본 Creator 정보 포함
 };
 
+// Character 관련 기본값
 const DEFAULT_CHARACTERS: Character[] = [];
 const DEFAULT_CHARACTER: Character = {
   id: -1,
   slug: "character-unavailable",
   name: "Character unavailable",
-  image: null,
+  bio_summary: "",
   description: "",
+  image: null,
   books: [],
-  creator: "",
+  creator: DEFAULT_SIMPLE_CREATOR, // 동일한 기본 Creator 사용
 };
 
 const DEFAULT_HISTORY_EVENTS: HistoryEvent[] = [];

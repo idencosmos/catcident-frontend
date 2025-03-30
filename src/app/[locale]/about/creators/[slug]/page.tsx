@@ -1,4 +1,5 @@
 // src/app/[locale]/about/creators/[slug]/page.tsx
+// 크리에이터 상세 페이지 - 선택한 크리에이터의 정보를 표시합니다.
 import { Suspense } from "react";
 import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
@@ -52,20 +53,22 @@ export default async function CreatorSlugPage({
           {/* 모바일: 좌우 배치, 데스크톱: 수직 배치 */}
           <div className="grid grid-cols-3 md:grid-cols-1 gap-4 md:gap-2">
             {/* 사진: 모바일에서 왼쪽 1칸, 데스크톱에서 세로로 배치 */}
-            <div className="col-span-1 md:col-span-full flex justify-start items-start">
+            <div className="col-span-1 md:col-span-full flex justify-start items-start w-full">
               {creator.photo ? (
-                <div className="relative w-full max-w-[120px] md:max-w-[180px] aspect-[3/4] overflow-hidden rounded-md">
+                <div className="relative w-full overflow-hidden rounded-md">
                   <Image
                     src={creator.photo.file}
                     alt={`${creator.name}`}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 120px, 180px"
+                    width={500}
+                    height={0}
+                    style={{ width: "100%", height: "auto" }}
+                    className="object-contain rounded-lg shadow-md"
+                    sizes="(max-width: 768px) 33vw, 25vw"
                     priority
                   />
                 </div>
               ) : (
-                <div className="w-full max-w-[120px] md:max-w-[180px] aspect-[3/4] bg-muted rounded-md flex items-center justify-center">
+                <div className="w-full h-40 bg-muted rounded-md flex items-center justify-center">
                   <span className="text-muted-foreground text-xs">
                     {noImageText}
                   </span>
@@ -80,7 +83,7 @@ export default async function CreatorSlugPage({
               </h1>
 
               {creator.bio_summary && (
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-sm text-muted-foreground mt-2">
                   {creator.bio_summary}
                 </p>
               )}

@@ -9,7 +9,6 @@ import { SubNavItem } from "@/components/layout/SubNavBar/SubNavBarItem";
 import SubNavBar from "@/components/layout/SubNavBar/SubNavBar";
 import { EmptyState } from "@/components/common/empty-state";
 import Container from "@/components/common/Container";
-import Loading from "./loading";
 
 export default async function NewsLayout({
   children,
@@ -56,9 +55,7 @@ export default async function NewsLayout({
       <Suspense>
         <SubNavBar items={navItems} defaultValue="all" />
       </Suspense>
-      <Container className="space-y-4 sm:space-y-6 md:space-y-8">
-        <Suspense fallback={<Loading />}>{children}</Suspense>
-      </Container>
+      <Container>{children}</Container>
     </>
   );
 }

@@ -1,3 +1,6 @@
+// 뉴스 상세 페이지 컴포넌트
+// 뉴스 기사의 제목, 날짜, 메인 이미지, 본문 내용을 반응형 레이아웃으로 표시
+
 import { Suspense } from "react";
 import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
@@ -45,26 +48,31 @@ export default async function NewsDetailPage({
   }
   return (
     <Suspense fallback={<Loading />}>
-      <Card>
+      <Card className="overflow-hidden">
+        {news.main_image && (
+          <div className="relative w-full h-[40vh] min-h-[300px]">
+            <Image
+              src={news.main_image.file}
+              alt={news.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+              priority
+              className="object-cover"
+            />
+          </div>
+        )}
         <CardHeader>
-          <CardTitle className="text-2xl">{news.title}</CardTitle>
+          <CardTitle className="text-2xl md:text-3xl">{news.title}</CardTitle>
           <p className="text-sm text-muted-foreground">
             {new Date(news.date).toLocaleDateString(locale)}
           </p>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {news.main_image && (
-            <Image
-              src={news.main_image.file}
-              alt={news.title}
-              width={400}
-              height={300}
-              className="rounded-lg shadow-md"
-            />
-          )}
+        <CardContent className="space-y-6 px-4 sm:px-6">
           <div
-            className="prose prose-sm sm:prose lg:prose-lg dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(news.content || "") }}
+            className="prose prose-sm sm:prose lg:prose-lg dark:prose-invert !max-w-none"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(news.content || ""),
+            }}
           />
         </CardContent>
       </Card>
