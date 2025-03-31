@@ -5,6 +5,8 @@ import { HistoryEvent } from "@/lib/api/_types/about/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/common/empty-state";
 import Loading from "./loading";
+import DOMPurify from "isomorphic-dompurify";
+import { PROSE_STYLES } from "@/constants/styles";
 
 export default async function HistoryPage({
   params: paramsPromise,
@@ -48,7 +50,12 @@ export default async function HistoryPage({
               <h3 className="text-lg font-semibold md:text-xl">
                 {event.title}
               </h3>
-              <p className="text-foreground/80">{event.description}</p>
+              <div
+                className={PROSE_STYLES.default}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(event.description),
+                }}
+              />
             </CardContent>
           </div>
         </Card>

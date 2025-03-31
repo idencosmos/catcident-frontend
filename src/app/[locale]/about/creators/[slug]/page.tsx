@@ -1,14 +1,17 @@
 // src/app/[locale]/about/creators/[slug]/page.tsx
-// 크리에이터 상세 페이지 - 선택한 크리에이터의 정보를 표시합니다.
+// 창작자 상세 정보 페이지 컴포넌트
+// 개별 창작자의 프로필, 정보, 작품 활동 등을 보여줍니다.
+
 import { Suspense } from "react";
 import Image from "next/image";
-import DOMPurify from "isomorphic-dompurify";
 import { notFound } from "next/navigation";
 import { getCreator, getCreators } from "@/lib/api/about";
 import { Creator } from "@/lib/api/_types/about/creator";
 import { Card, CardContent } from "@/components/ui/card";
-import Loading from "../loading";
 import { routing } from "@/i18n/routing";
+import Loading from "./loading";
+import DOMPurify from "isomorphic-dompurify";
+import { PROSE_STYLES } from "@/constants/styles";
 
 export async function generateStaticParams() {
   const allPaths = [];
@@ -96,7 +99,7 @@ export default async function CreatorSlugPage({
           <Card>
             <CardContent className="pt-6">
               <div
-                className="prose prose-sm max-w-none dark:prose-invert"
+                className={PROSE_STYLES.default}
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(creator.description || ""),
                 }}

@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/common/empty-state";
 import DOMPurify from "isomorphic-dompurify";
 import Loading from "./loading";
+import { PROSE_STYLES } from "@/constants/styles";
 
 export default async function LicensesPage({
   params: paramsPromise,
@@ -38,7 +39,7 @@ export default async function LicensesPage({
         </CardHeader>
         <CardContent>
           <div
-            className="prose prose-sm sm:prose lg:prose-lg dark:prose-invert !max-w-none"
+            className={PROSE_STYLES.default}
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(license.content),
             }}

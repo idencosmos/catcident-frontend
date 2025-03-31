@@ -1,15 +1,17 @@
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { getCharacter, getCharacters } from "@/lib/api/about";
 import { Character } from "@/lib/api/_types/about/character";
 import { Card, CardContent } from "@/components/ui/card";
-import DOMPurify from "isomorphic-dompurify";
-import Loading from "../loading";
 import { routing } from "@/i18n/routing";
+import Loading from "./loading";
+import DOMPurify from "isomorphic-dompurify";
+import { PROSE_STYLES } from "@/constants/styles";
+import { CharacterNavigationButton } from "../_components/CharacterNavigationButton";
 
-// 캐릭터 상세 페이지 컴포넌트
-// 캐릭터 정보, 이미지, 등장작과 작가 정보를 보여주는 반응형 레이아웃 구현
+// 캐릭터 상세 정보 페이지 컴포넌트
+// 개별 캐릭터의 프로필, 정보, 설명 등을 보여줍니다.
 
 export async function generateStaticParams() {
   const allPaths = [];
@@ -114,7 +116,7 @@ export default async function CharacterDetailPage({
           <Card>
             <CardContent className="pt-6">
               <div
-                className="prose prose-sm max-w-none dark:prose-invert"
+                className={PROSE_STYLES.default}
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(character.description || ""),
                 }}
@@ -123,6 +125,9 @@ export default async function CharacterDetailPage({
           </Card>
         </div>
       </div>
+
+      {/* 캐릭터 목록으로 돌아가는 네비게이션 버튼 */}
+      <CharacterNavigationButton locale={locale} />
     </Suspense>
   );
 }

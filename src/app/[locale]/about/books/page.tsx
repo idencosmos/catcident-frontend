@@ -3,6 +3,7 @@
 // 카테고리별 필터링을 지원하며, 책 표지, 제목, 부제목, 저자 정보를 카드 형태로 표시
 
 import Image from "next/image";
+import { Suspense } from "react";
 
 import { Link } from "@/i18n/routing";
 import { getBooks } from "@/lib/api/about";
@@ -15,6 +16,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import Grid from "@/components/common/Grid";
+import Loading from "./loading";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -37,48 +39,57 @@ export default async function BooksPage({
   const authorLabel = locale === "ko" ? "저자" : "Author";
 
   return (
-    <Grid variant="spacious">
-      {filteredBooks.map((book) => (
-        <Link key={book.id} href={`/about/books/${book.id}`}>
-          <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
-            <CardHeader>
-              <CardTitle>{book.title}</CardTitle>
-              {book.subtitle && (
-                <CardDescription>{book.subtitle}</CardDescription>
-              )}
-            </CardHeader>
-            <CardContent className="flex-grow flex flex-col">
-              {book.cover_image && (
-                <div className="flex justify-center mb-4">
-                  <Image
-                    src={book.cover_image.file}
-                    alt={book.title}
-                    width={180}
-                    height={240}
-                    className="rounded-md shadow-sm"
-                  />
-                </div>
-              )}
-
-              {book.summary && (
-                <p className="text-sm mb-4 line-clamp-2">{book.summary}</p>
-              )}
-
-              <div className="mt-auto">
-                {book.authors && book.authors.length > 0 && (
-                  <p className="text-sm mb-2">
-                    <span className="font-medium">{authorLabel}:</span>{" "}
-                    {book.authors.map((author) => author.name).join(", ")}
-                  </p>
+    <Suspense fallback={<Loading />}>
+      <Grid variant="spacious">
+        {filteredBooks.map((book) => (
+          <Link
+            key={book.id}
+            href={
+              category
+                ? `/about/books/${book.id}?category=${category}`
+                : `/about/books/${book.id}`
+            }
+          >
+            <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
+              <CardHeader>
+                <CardTitle>{book.title}</CardTitle>
+                {book.subtitle && (
+                  <CardDescription>{book.subtitle}</CardDescription>
                 )}
-                <p className="text-xs text-muted-foreground">
-                  {new Date(book.pub_date).toLocaleDateString(locale)}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-      ))}
-    </Grid>
+              </CardHeader>
+              <CardContent className="flex-grow flex flex-col">
+                {book.cover_image && (
+                  <div className="flex justify-center mb-4">
+                    <Image
+                      src={book.cover_image.file}
+                      alt={book.title}
+                      width={180}
+                      height={240}
+                      className="rounded-md shadow-sm"
+                    />
+                  </div>
+                )}
+
+                {book.summary && (
+                  <p className="text-sm mb-4 line-clamp-2">{book.summary}</p>
+                )}
+
+                <div className="mt-auto">
+                  {book.authors && book.authors.length > 0 && (
+                    <p className="text-sm mb-2">
+                      <span className="font-medium">{authorLabel}:</span>{" "}
+                      {book.authors.map((author) => author.name).join(", ")}
+                    </p>
+                  )}
+                  <p className="text-xs text-muted-foreground">
+                    {new Date(book.pub_date).toLocaleDateString(locale)}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </Grid>
+    </Suspense>
   );
 }

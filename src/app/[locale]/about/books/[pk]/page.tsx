@@ -9,7 +9,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Suspense } from "react";
 import DOMPurify from "isomorphic-dompurify";
-import Loading from "../loading";
+import Loading from "./loading";
+import { PROSE_STYLES } from "@/constants/styles";
+import { BookNavigationButton } from "../_components/BookNavigationButton";
 
 // 모든 책 데이터에 대한 정적 경로를 생성하여 빌드 타임에 페이지를 미리 생성
 export async function generateStaticParams() {
@@ -118,7 +120,7 @@ export default async function BookDetailPage({
           <Card>
             <CardContent className="pt-6">
               <div
-                className="prose prose-sm max-w-none dark:prose-invert"
+                className={PROSE_STYLES.default}
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(book.description),
                 }}
@@ -127,6 +129,9 @@ export default async function BookDetailPage({
           </Card>
         </div>
       </div>
+
+      {/* 책 목록으로 돌아가는 네비게이션 버튼 */}
+      <BookNavigationButton locale={locale} />
     </Suspense>
   );
 }
