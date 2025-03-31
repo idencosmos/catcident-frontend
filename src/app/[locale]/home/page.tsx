@@ -14,12 +14,28 @@ import { Card, CardContent } from "@/components/ui/card";
 import Container from "@/components/common/Container";
 import Grid from "@/components/common/Grid";
 
+// 섹션 내부 로딩을 위한 스켈레톤 컴포넌트
+// 실제 섹션과 동일한 구조를 가진 스켈레톤 UI
 function HomePageSkeleton() {
   return (
-    <div className="space-y-4">
-      <Skeleton className="h-8 w-3/4" />
-      <Skeleton className="h-32 w-full" />
-      <Skeleton className="h-32 w-full" />
+    <div className="flex flex-col h-full space-y-4">
+      <Skeleton className="h-8 w-3/4" /> {/* 섹션 제목 */}
+      <div className="flex-1 flex flex-col md:flex-row gap-4">
+        <Skeleton className="h-[180px] w-[140px] md:w-[160px] rounded-md" />{" "}
+        {/* 이미지 영역 */}
+        <div className="flex-1 space-y-3">
+          <Skeleton className="h-6 w-1/2" /> {/* 제목 */}
+          <Skeleton className="h-4 w-1/3" /> {/* 부제목 */}
+          <div className="space-y-2 pt-2">
+            <Skeleton className="h-4 w-full" /> {/* 설명 텍스트 */}
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+          </div>
+          <div className="pt-3">
+            <Skeleton className="h-9 w-28" /> {/* 버튼 */}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

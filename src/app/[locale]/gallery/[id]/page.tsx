@@ -18,6 +18,7 @@ import DOMPurify from "isomorphic-dompurify";
 import Loading from "./loading";
 import { routing } from "@/i18n/routing";
 import { NavigationButton } from "../_components/NavigationButton";
+import { PROSE_STYLES } from "@/constants/styles";
 
 // 빌드 시 정적 경로 생성: 모든 로케일과 갤러리 아이템 ID 조합
 export async function generateStaticParams() {
@@ -126,7 +127,7 @@ export default async function GalleryDetailPage({
 
             {/* 상세 설명 (HTML) 표시 - DOMPurify로 XSS 방지 */}
             <div
-              className="prose prose-sm md:prose-base max-w-none text-foreground/80 prose-headings:text-foreground prose-a:text-primary hover:prose-a:text-primary/90 prose-img:rounded-md"
+              className={PROSE_STYLES.default}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(galleryItem.description),
               }}

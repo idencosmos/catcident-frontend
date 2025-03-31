@@ -8,8 +8,10 @@ import { News } from "@/lib/api/_types/news";
 import { getNewsItem, getNews } from "@/lib/api/news";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/common/empty-state";
-import Loading from "../loading";
+import Loading from "./loading";
 import { routing } from "@/i18n/routing";
+import { PROSE_STYLES } from "@/constants/styles";
+import { NewsNavigationButton } from "../_components/NewsNavigationButton";
 
 export async function generateStaticParams() {
   const allPaths = [];
@@ -69,13 +71,16 @@ export default async function NewsDetailPage({
         </CardHeader>
         <CardContent className="space-y-6 px-4 sm:px-6">
           <div
-            className="prose prose-sm sm:prose lg:prose-lg dark:prose-invert !max-w-none"
+            className={PROSE_STYLES.default}
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(news.content || ""),
             }}
           />
         </CardContent>
       </Card>
+
+      {/* 뉴스 목록으로 돌아가는 네비게이션 버튼 */}
+      <NewsNavigationButton locale={locale} />
     </Suspense>
   );
 }

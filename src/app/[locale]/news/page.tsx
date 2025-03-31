@@ -45,7 +45,11 @@ export default async function NewsPage({
         {filteredNews.map((item) => (
           <Link
             key={item.id}
-            href={`/news/${item.id}`}
+            href={
+              category
+                ? `/news/${item.id}?category=${category}`
+                : `/news/${item.id}`
+            }
             className="block w-full"
           >
             <Card className="hover:shadow-lg transition-shadow overflow-hidden h-full">

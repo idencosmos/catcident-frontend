@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import DOMPurify from "isomorphic-dompurify";
+import { PROSE_STYLES } from "@/constants/styles";
 
 interface EventDetailPanelProps {
   event: Event | null;
@@ -83,7 +84,7 @@ export const EventDetailPanel: FC<EventDetailPanelProps> = ({
               />
             )}
             <div
-              className="prose text-foreground max-w-none dark:prose-invert"
+              className={PROSE_STYLES.default}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(event.description || ""),
               }}
