@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { combinedFonts } from "@/lib/fonts";
 
@@ -28,8 +29,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "";
+
   return (
     <html suppressHydrationWarning className={`${combinedFonts}`}>
+      {gtmId && <GoogleTagManager gtmId={gtmId} />}
       <body className="bg-background text-foreground antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
