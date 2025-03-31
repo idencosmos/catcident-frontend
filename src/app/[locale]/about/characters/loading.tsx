@@ -7,8 +7,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import Grid from "@/components/common/Grid";
 

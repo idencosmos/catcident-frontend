@@ -5,7 +5,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Grid from "@/components/common/Grid";
-import { Badge } from "@/components/ui/badge";
 
 // 개별 뉴스 카드 스켈레톤
 function NewsCardSkeleton() {
