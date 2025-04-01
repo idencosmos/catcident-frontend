@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import Grid from "@/components/common/Grid";
 import Loading from "./loading";
+import { EmptyState } from "@/components/common/empty-state";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -35,8 +36,25 @@ export default async function BooksPage({
     ? books.filter((book) => book.category?.slug === category)
     : books;
 
-  // 간단한 현지화 텍스트
+  // 현지화된 텍스트 정의
   const authorLabel = locale === "ko" ? "저자" : "Author";
+  const noItemsMessage =
+    locale === "ko"
+      ? "이 카테고리에는 현재 책이 없습니다."
+      : "No books in this category.";
+  const viewOtherCategories =
+    locale === "ko" ? "다른 카테고리 보기" : "View other categories";
+
+  // 필터링된 책이 없을 경우 EmptyState 컴포넌트 표시
+  if (filteredBooks.length === 0) {
+    return (
+      <EmptyState
+        message={noItemsMessage}
+        actionLabel={viewOtherCategories}
+        actionHref="/about/books"
+      />
+    );
+  }
 
   return (
     <Suspense fallback={<Loading />}>

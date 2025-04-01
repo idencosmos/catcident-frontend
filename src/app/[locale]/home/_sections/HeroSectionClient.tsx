@@ -84,7 +84,7 @@ export function HeroSectionClient({ slides }: HeroSectionClientProps) {
         className="w-full"
       >
         <CarouselContent>
-          {validSlides.map((slide) => (
+          {validSlides.map((slide, index) => (
             <CarouselItem
               key={slide.id}
               className="relative w-full overflow-hidden"
@@ -96,7 +96,7 @@ export function HeroSectionClient({ slides }: HeroSectionClientProps) {
                   fill
                   sizes="(max-width: 1200px) 167vw, 2000px"
                   className="hero-image"
-                  priority
+                  priority={index === 0}
                 />
               </div>
             </CarouselItem>
