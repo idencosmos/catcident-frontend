@@ -99,7 +99,7 @@ export default async function CreatorSlugPage({
           <Card>
             <CardContent className="pt-6">
               <div
-                className={PROSE_STYLES.default}
+                className={PROSE_STYLES.ckeditor}
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(creator.description || ""),
                 }}

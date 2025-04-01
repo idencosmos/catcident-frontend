@@ -51,7 +51,7 @@ export default async function HistoryPage({
                 {event.title}
               </h3>
               <div
-                className={PROSE_STYLES.default}
+                className={PROSE_STYLES.ckeditor}
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(event.description),
                 }}

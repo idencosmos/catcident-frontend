@@ -127,7 +127,7 @@ export default async function GalleryDetailPage({
 
             {/* 상세 설명 (HTML) 표시 - DOMPurify로 XSS 방지 */}
             <div
-              className={PROSE_STYLES.default}
+              className={PROSE_STYLES.ckeditor}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(galleryItem.description),
               }}

@@ -11,4 +11,5 @@
  */
 export const PROSE_STYLES = {
   default: "prose max-w-none dark:prose-invert",
+  ckeditor: "prose max-w-none dark:prose-invert ck-content",
 };

@@ -9,7 +9,7 @@ interface CustomSectionProps {
 export default function CustomSection({ content }: CustomSectionProps) {
   return (
     <div
-      className={PROSE_STYLES.default}
+      className={PROSE_STYLES.ckeditor}
       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
     />
   );

@@ -1,0 +1,12 @@
+.ck-content .image-style-align-center img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ck-content .image-style-align-left img {
+  float: left;
+}
+
+.ck-content .image-style-align-right img {
+  float: right;
+}

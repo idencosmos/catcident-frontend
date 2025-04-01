@@ -71,7 +71,7 @@ export default async function NewsDetailPage({
         </CardHeader>
         <CardContent className="space-y-6 px-4 sm:px-6">
           <div
-            className={PROSE_STYLES.default}
+            className={PROSE_STYLES.ckeditor}
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(news.content || ""),
             }}

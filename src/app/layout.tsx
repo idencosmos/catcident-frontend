@@ -4,6 +4,7 @@
  * 전역 스타일, 메타데이터, 테마 설정 및 분석 도구를 관리합니다.
  */
 import "@/styles/globals.css";
+import "@/styles/ckeditor.css";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/providers/theme-provider";

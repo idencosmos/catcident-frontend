@@ -39,7 +39,7 @@ export default async function LicensesPage({
         </CardHeader>
         <CardContent>
           <div
-            className={PROSE_STYLES.default}
+            className={PROSE_STYLES.ckeditor}
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(license.content),
             }}
