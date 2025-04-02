@@ -1,4 +1,4 @@
-// src/app/[locale]/home/loading.tsx
+// src/app/[locale]/loading.tsx
 // 홈 페이지의 로딩 상태 컴포넌트
 // 실제 홈 페이지와 동일한 구조의 스켈레톤 UI를 표시
 
@@ -14,7 +14,10 @@ function HeroSectionSkeleton() {
       <Skeleton className="w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-none" />
       <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2">
         {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full" />
+          <Skeleton
+            key={i}
+            className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full"
+          />
         ))}
       </div>
     </div>
@@ -54,7 +57,10 @@ export default function Loading() {
           {/* 첫 번째 행: 2개 섹션 (기본 레이아웃) */}
           <Grid variant="home" className="grid-flow-row auto-rows-fr">
             {[...Array(2)].map((_, i) => (
-              <Card key={i} className="col-span-1 md:col-span-1 overflow-hidden h-full">
+              <Card
+                key={i}
+                className="col-span-1 md:col-span-1 overflow-hidden h-full"
+              >
                 <CardContent className="p-4 sm:p-5 md:p-6 h-full flex flex-col">
                   <SectionSkeleton />
                 </CardContent>

@@ -40,7 +40,7 @@ export default function NotFound() {
           <p className="text-sm text-muted-foreground mb-6">Page Not Found</p>
 
           {/* 홈으로 이동 버튼 */}
-          <Link href="/home" className="inline-block">
+          <Link href="/" className="inline-block">
             <Button
               variant="outline"
               className="px-6 py-2 border-[#a03046]/30 hover:bg-[#a03046]/5 transition-colors group"

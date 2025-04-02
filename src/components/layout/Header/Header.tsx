@@ -37,7 +37,7 @@ export default function Header({ siteTitle, navGroups }: HeaderProps) {
         className="flex h-full items-center justify-between"
       >
         <Link
-          href="/home"
+          href="/"
           className="font-bold text-lg hover:text-primary transition-colors truncate whitespace-nowrap overflow-hidden flex items-center gap-2"
         >
           <Image
