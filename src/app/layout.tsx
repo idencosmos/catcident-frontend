@@ -10,22 +10,56 @@ import Script from "next/script";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { combinedFonts } from "@/lib/fonts";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteName = "Catcident";
+const siteSlogan = "조선문화를 탐낸 고양이들";
+const siteConcept =
+  "고양이의 만행 공식 홈페이지. 야옹이왕을 찾아라 도서, 그림책, 캐릭터 상품, 갤러리, 자료실 등 다양한 콘텐츠를 만나보세요.";
+const defaultDescription = `${siteName}: ${siteSlogan}. ${siteConcept}`;
+const defaultOgImage = `${siteUrl}/og-default.png`; // public/og-default.png 필요
+
 // 애플리케이션 메타데이터 설정
 export const metadata: Metadata = {
+  // 페이지 제목 설정 - 템플릿과 기본값 구성
   title: {
-    template: "%s | Catcident",
-    default: "Catcident",
+    template: `%s | ${siteName}`,
+    default: `${siteName} - ${siteSlogan}`,
   },
-  description: "Welcome to Catcident.",
+  // 웹사이트 설명
+  description: defaultDescription,
+  // 파비콘 및 아이콘 설정
   icons: {
     icon: "/favicon.ico",
+    // apple: '/apple-icon.png', // 필요시 추가
   },
+  // Open Graph 메타데이터 - 소셜 미디어 공유 시 표시되는 정보
+  openGraph: {
+    title: {
+      template: `%s | ${siteName}`,
+      default: `${siteName} - ${siteSlogan}`,
+    },
+    description: defaultDescription,
+    url: siteUrl,
+    siteName: siteName,
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteName} Default OG Image`,
+      },
+    ],
+    type: "website",
+  },
+  // 웹 애플리케이션 이름 (PWA 매니페스트 등에서 사용)
+  applicationName: siteName,
 };
 
-// 뷰포트 설정 (반응형 및 테마 색상 설정)
+// 뷰포트 설정
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  // 라이트/다크 모드에 따른 테마 색상 설정
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
